@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box'
+
+import Form from '../../src/components/forms/Form'
 export const getServerSideProps = async (query) => {
   const { id } = query.query;
   const form = {
@@ -10,7 +12,7 @@ export const getServerSideProps = async (query) => {
   return {props: {form: form}}
 }
 
-export default function Form({ form }) {
+export default function FormPage({ form }) {
   return (
     <Box sx={{ minHeight: '100vh', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', }}>
       <h1>{form.id}</h1>
