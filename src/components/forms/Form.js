@@ -4,8 +4,8 @@ import Question from "./Question";
 import Welcome from "./Welcome";
 import Submit from "./Submit";
 
-
 import LinearProgress from '@mui/material/LinearProgress';
+import Container from '@mui/material/Container'
 
 export default function Form({ questions, theme }) {
 
@@ -31,6 +31,7 @@ export default function Form({ questions, theme }) {
             limit={limit}
             responses={responses}
             addResponse={setResponses}
+            theme={theme}
           />) :
           (ques == limit + 1 &&
             (<Submit

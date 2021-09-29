@@ -1,6 +1,7 @@
 
 import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
+import validator from './Validators'
 
 export default function Input({ question, theme, value, valueChange, validate }) {
 
@@ -37,7 +38,6 @@ export default function Input({ question, theme, value, valueChange, validate })
       value={value}
       multiline={question.multiline}
       rows={3}
-      autoFocus={mobile? false: true}
       onChange={(e) => (valueChange(e.target.value))}
     >
       {question.options.map((item, index) => {

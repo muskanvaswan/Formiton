@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide'
 import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import useMediaQuery from '@mui/material/useMediaQuery'
 import validator from './Validators'
@@ -117,9 +118,10 @@ export default function Form(props) {
       <Navigators
         previous={previous}
         next={next}
-        save={save}
+        save={handleNext}
         buttonText={props.question.buttonText}
         multiline={props.question.multiline}
+        theme={props.theme}
       />
 
     </div>

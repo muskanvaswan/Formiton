@@ -1,10 +1,11 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton'
 
-export default function Buttons({ previous, next, save, buttonText, multiline}) {
+export default function Buttons({ previous, next, save, buttonText, multiline, theme}) {
 
   const classes = {
     pageIcon: {
@@ -39,7 +40,7 @@ export default function Buttons({ previous, next, save, buttonText, multiline}) 
         onClick={save}
         sx={{ fontWeight: 700, width: '50%'}}
       >
-        {props.buttonText}
+        {buttonText}
       </Button>
     </div>
   )
