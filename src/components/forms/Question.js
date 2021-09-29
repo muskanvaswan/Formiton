@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useTheme, makeStyles } from '@mui/styles';
 import { alpha } from '@mui/material/styles';
+
+
+import Navigators from './Navigtors'
+import Input from './Input'
+
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide'
 import MenuItem from '@mui/material/MenuItem'
@@ -40,25 +43,6 @@ const useStyles = makeStyles((theme) => ({
   description: {
     marginTop: 20
   },
-  input: {
-    height: 40,
-    marginTop: 20,
-    '& input' : {
-      fontSize: 25,
-      color: 'rgb(55, 255, 144)'
-    },
-    '& div' : {
-      fontSize: 25,
-      backgroundColor: 'black',
-      color: 'rgb(55, 255, 144)'
-    },
-    '& svg' : {
-      color: 'rgb(55, 255, 144)'
-    },
-    '& option' : {
-      fontSize: 25,
-    }
-  },
 }));
 
 export default function Form(props) {
@@ -67,9 +51,11 @@ export default function Form(props) {
   const mobile = useMediaQuery('(max-width:500px)')
 
   const [value, valueChange] = useState(props.responses[props.question.id] || null);
+
   const validate = (str) => {
     return !(props.question.required && (str === '' || str === null || !validator(str, props.question.type)))
   }
+
   const handleNext = () => {
 
     if (validate(value)){
@@ -121,27 +107,13 @@ export default function Form(props) {
       <Typography variant="h5" color="primary" sx={{ opacity: 0.7}} className={classes.subHeading}>{props.question.subHeading}</Typography>
       <Typography variant="body1" component='div' color="primary" sx={{ opacity: 0.6 }} dangerouslySetInnerHTML={{__html: props.question.description}} className={classes.description}>
       </Typography>
-      <TextField
-        variant="standard"
-        type={props.question.type}
-        select={props.question.type == 'select'}
-        error={!validator(value, props.question.type)}
-        required={props.question.required}
-        placeholder={props.question.placeholder || "Type Your Answer Here ..."}
-        color="primary"
+      <Input
+        question={props.question}
+        theme={props.theme}
         value={value}
-        multiline={props.question.multiline}
-        className={classes.input}
-        rows={3}
-        autoFocus={mobile? false: true}
-        onChange={(e) => (valueChange(e.target.value))}
-      >
-        {props.question.options.map((item, index) => {
-          return (
-            <MenuItem value={item.value}>{item.name}</MenuItem>
-          )
-        })}
-      </TextField>
+        valueChange={valueChange}
+        validate={validate}
+      />
       <Navigators
         previous={previous}
         next={next}
