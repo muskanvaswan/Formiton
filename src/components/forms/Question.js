@@ -3,7 +3,7 @@ import { useTheme, makeStyles } from '@mui/styles';
 import { alpha } from '@mui/material/styles';
 
 
-import Navigators from './Navigtors'
+import Navigators from './Navigators'
 import Input from './Input'
 
 import Typography from '@mui/material/Typography';
