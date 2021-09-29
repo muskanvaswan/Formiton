@@ -4,10 +4,6 @@ import MenuItem from '@mui/material/MenuItem'
 
 export default function Input({ question, theme, value, valueChange, validate }) {
 
-  const validate = (str) => {
-    return !(props.question.required && (str === '' || str === null || !validator(str, props.question.type)))
-  }
-
   const input = {
       height: 40,
       marginTop: 20,
@@ -26,8 +22,7 @@ export default function Input({ question, theme, value, valueChange, validate })
       '& option' : {
         fontSize: 25,
       }
-    },
-  }
+    }
 
   return (
     <TextField
