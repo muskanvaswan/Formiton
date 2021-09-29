@@ -21,7 +21,7 @@ export default function Form({ questions, theme }) {
         sx={{height: 5, bgcolor: theme.bgcolor || 'background.default'}}
         variant="determinate"
       />
-      <Container maxWidth="md" sx={{overflowY: {lg: 'hidden', sm: 'scroll'}}>
+      <Container maxWidth="md" sx={{overflowY: {lg: 'hidden', sm: 'scroll'}}}>
         {ques == 0 && <Welcome start={updateQuestion} />}
         {ques > 0 && ques <= limit ?
           (<Question
