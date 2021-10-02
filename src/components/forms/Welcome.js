@@ -22,7 +22,7 @@ const useStyles = {
   },
 };
 
-export default function Welcome({ start }) {
+export default function Welcome({ start, data }) {
   const classes = useStyles;
   const [submitted, setSubmitted] = useState(true);
 
@@ -68,17 +68,12 @@ export default function Welcome({ start }) {
         color="primary"
         sx={{ color: thememing.text.primary || "primary.main" }}
       >
-        The Application to CSI core 2021 - 22.
+        {data.title}
       </Typography>
       <Typography variant="body1" color="primary" sx={classes.description}>
-        A warm welcome to the Batch of 2025. Find below the pamphlet for CSI and
-        also a brief description. To give you a one line summary, Computer
-        Society of India Bennett University is a Technical Chapter with one aim:
-        to add value to the team as well as the student technical community at
-        large. There are various departments in the team, and here is your first
-        step to joining us!
+        {data.description}
       </Typography>
-      <div sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex" }}>
         <Button
           variant="outlined"
           sx={classes.button}
@@ -99,7 +94,7 @@ export default function Welcome({ start }) {
         >
           Start Your Application
         </Button>
-      </div>
+      </Box>
     </Box>
   );
 }

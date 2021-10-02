@@ -7,7 +7,7 @@ import Submit from "./Submit";
 import LinearProgress from '@mui/material/LinearProgress';
 import Container from '@mui/material/Container'
 
-export default function Form({ questions, theme }) {
+export default function Form({ questions, theme, welcome, submit }) {
 
   const [ ques, updateQuestion ] = React.useState(0);
   const [ responses, setResponses ] = React.useState({ 0: true });
@@ -22,7 +22,7 @@ export default function Form({ questions, theme }) {
         variant="determinate"
       />
       <Container maxWidth="md" sx={{overflowY: {lg: 'hidden', sm: 'scroll'}}}>
-        {ques == 0 && <Welcome start={updateQuestion} />}
+        {ques == 0 && <Welcome start={updateQuestion} data={welcome} />}
         {ques > 0 && ques <= limit ?
           (<Question
             key={ques}
