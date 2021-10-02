@@ -18,7 +18,6 @@ import validator from './Validators'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    //height: '95vh',
     minHeight: '95vh',
     justifyContent: 'center',
     display: 'flex',

@@ -6,15 +6,15 @@ import validator from './Validators'
 export default function Input({ question, theme, value, valueChange, validate }) {
 
   const input = {
-      height: 40,
-      marginTop: 20,
+      //height: 40,
+      //marginTop: 20,
       '& input' : {
         fontSize: 25,
         color: theme.primary || 'primary.main'
       },
       '& div' : {
         fontSize: 25,
-        backgroundColor: 'black',
+        backgroundColor: theme.bgcolor || 'background.default',
         color: theme.primary || 'primary.main'
       },
       '& svg' : {
