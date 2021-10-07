@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import validator from './Validators'
 
-export default function Input({ question, theme, value, valueChange, validate }) {
+export default function Input({ question, theme, value, valueChange, validate, disabled }) {
 
   const input = {
       //height: 40,
@@ -28,6 +28,7 @@ export default function Input({ question, theme, value, valueChange, validate })
   return (
     <TextField
       variant="standard"
+      disabled={disabled}
       type={question.type}
       select={question.type == 'select'}
       error={!validator(value, question.type)}
