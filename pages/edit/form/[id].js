@@ -142,6 +142,13 @@ export default function Form({ form }) {
   const [ heading, setHeading ] = React.useState(questions[activeQuestion].heading);
   const [ subHeading, setSubHeading ] = React.useState(questions[activeQuestion].subHeading);
   const [ description, setDescription ] = React.useState(questions[activeQuestion].description);
+
+  React.useEffect(() => {
+    setHeading(questions[activeQuestion].heading);
+    setSubHeading(questions[activeQuestion].subHeading);
+    setDescription(questions[activeQuestion].description);
+  }, [activeQuestion]);
+  
   const updateQuestion = (val) => {
     setQuestions(questions => {
       questions[activeQuestion][focused] = val;
