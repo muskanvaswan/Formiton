@@ -5,6 +5,8 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Input from '../../../src/components/forms/Input'
+import Navigators from '../../../src/components/forms/Navigators'
+
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField'
 
@@ -200,8 +202,17 @@ export default function Form({ form }) {
               question={questions[activeQuestion]}
               theme={{bgcolor: bgcolor, primary: primary, secondary: secondary}}
               value={undefined}
+              multiline={questions[activeQuestion].multiline}
               valueChange={setInp}
               validate={() => true}
+            />
+            <Navigators
+              previous={() => {}}
+              next={() => {}}
+              save={() => {}}
+              buttonText={questions[activeQuestion].buttonText}
+              multiline={questions[activeQuestion].multiline}
+              theme={{primary: primary, secondary: secondary, bgcolor: bgcolor}}
             />
           </Box>
           <Box sx={classes.questions}>
@@ -229,7 +240,7 @@ export default function Form({ form }) {
 
         <Box sx={{py: 3, px: 1}}>
           <Typography variant="h6">Secondary</Typography>
-          <TextField variant="standard" value={secondary} onChange={(e) => setS(e.target.value)}/>
+          <TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>
         </Box>
 
       </Grid>

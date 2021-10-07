@@ -36,11 +36,11 @@ export default function Buttons({ previous, next, save, buttonText, multiline, t
           <IconButton variant="contained" onClick={next} sx={classes.pageIcon}><ArrowUpwardIcon color="inherit" /></IconButton>
         </Box>
         <Button
-          color="secondary"
+          color="inherit"
           variant="contained"
           endIcon={<KeyboardReturnIcon/>}
           onClick={save}
-          sx={{ fontWeight: 700, width: '50%'}}
+          sx={{ fontWeight: 700, width: '50%', bgcolor: theme.secondary || 'secondary.main', color: theme.text || 'text.primary'}}
         >
           {buttonText}
         </Button>
