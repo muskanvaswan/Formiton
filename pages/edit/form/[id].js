@@ -123,16 +123,31 @@ export default function Form({ form }) {
   };
 
   const [ questions, setQuestions ] = React.useState(form.questions);
-  const [activeQuestion, setActiveQuestion ] = React.useState(0);
-  const [ headingFocused, setHeadingFocused ] = React.useState(false);
+  const [ activeQuestion, setActiveQuestion ] = React.useState(0);
+  const [ focused, setFocused ] = React.useState('false');
+
+  const copyStyle = (obj) => {
+    return {
+      position: 'relative',
+      mt: -1,
+      borderWidth: 0,
+      '& input' : {
+        fontSize: obj.fontSize,
+        color: obj.color,
+        fontWeight: obj.fontWeight
+      },
+    }
+  }
 
   const [ heading, setHeading ] = React.useState(questions[activeQuestion].heading);
-  const updateHeading = () => {
+  const [ subHeading, setSubHeading ] = React.useState(questions[activeQuestion].subHeading);
+  const [ description, setDescription ] = React.useState(questions[activeQuestion].description);
+  const updateQuestion = (val) => {
     setQuestions(questions => {
-      questions[activeQuestion].heading = heading;
+      questions[activeQuestion][focused] = val;
       return questions;
     })
-    setHeadingFocused(false);
+    setFocused('false');
   }
 
   return (
@@ -142,14 +157,20 @@ export default function Form({ form }) {
           <Box sx={classes.question}>
             <Box sx={classes.q}>
               <ArrowForwardIcon color="primary" sx={classes.icon}/>
-              {headingFocused?
-                <TextField variant="standard" autoFocus={true} value={heading} onChange={(e) => setHeading(e.target.value)} onBlur={updateHeading} />
-                :<Typography variant="h4" color="primary" sx={{ fontWeight: 700}} onClick={() => setHeadingFocused(true)}>{questions[activeQuestion].heading}</Typography>
+              {focused === 'heading' ?
+                <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 36, color: form.theme.primary || 'primary.main'})} autoFocus={true} value={heading} onChange={(e) => setHeading(e.target.value)} onBlur={() => updateQuestion(heading)} />
+                :<Typography variant="h4" color="primary" sx={{ fontWeight: 700}} onClick={() => setFocused('heading')}>{questions[activeQuestion].heading}</Typography>
               }
             </Box>
-            <Typography variant="h5" color="primary" sx={{ opacity: 0.7}} sx={classes.subHeading}>{questions[activeQuestion].subHeading}</Typography>
-            <Typography variant="body1" component='div' color="primary" sx={{ opacity: 0.6 }} dangerouslySetInnerHTML={{__html: questions[activeQuestion].description}} className={classes.description}>
-            </Typography>
+            {focused === 'subHeading' ?
+              <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 25, color: form.theme.primary || 'primary.main'})} autoFocus={true} value={subHeading} onChange={(e) => setSubHeading(e.target.value)} onBlur={() => updateQuestion(subHeading)} />
+              :<Typography variant="h5" color="primary" sx={{ opacity: 0.7}} onClick={() => setFocused('subHeading')} sx={classes.subHeading}>{questions[activeQuestion].subHeading || "Put Sub Heading here..."}</Typography>
+            }
+            {focused === 'description' ?
+              <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 25, color: form.theme.primary || 'primary.main'})} autoFocus={true} value={description} onChange={(e) => setDescription(e.target.value)} onBlur={() => updateQuestion(description)} />
+              :<Typography variant="body1" component='div' color="primary" sx={{ opacity: 0.6 }} onClick={() => setFocused('description')} dangerouslySetInnerHTML={{__html: questions[activeQuestion].description}} className={classes.description} />
+            }
+
             <Input
               question={questions[activeQuestion]}
               theme={form.theme}
