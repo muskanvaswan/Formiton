@@ -1,4 +1,4 @@
-const classes => {
+const classes = {
   root: {
     // some css that access to theme
   }
