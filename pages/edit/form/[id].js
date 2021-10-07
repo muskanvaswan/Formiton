@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField'
 
 
-
+import { useTheme } from '@mui/material/styles'
 
 import getQuestions from '../../../sample-questions'
 
@@ -29,6 +29,39 @@ export const getServerSideProps = async (query) => {
 
 
 export default function Form({ form }) {
+
+
+  const theme = useTheme();
+
+  const [ questions, setQuestions ] = React.useState(form.questions);
+  const [ activeQuestion, setActiveQuestion ] = React.useState(0);
+  const [ focused, setFocused ] = React.useState('false');
+
+  const [ inp, setInp ] = React.useState();
+
+  const [ heading, setHeading ] = React.useState(questions[activeQuestion].heading);
+  const [ subHeading, setSubHeading ] = React.useState(questions[activeQuestion].subHeading);
+  const [ description, setDescription ] = React.useState(questions[activeQuestion].description);
+
+  const [ bgcolor, setBgcolor ] = React.useState(form.theme.bgcolor || theme.palette.background.default)
+  const [ primary, setPrimary ] = React.useState(form.theme.primary || theme.palette.primary.main)
+  const [ secondary, setSecondary ] = React.useState(form.theme.secondary || theme.palette.secondary.main)
+
+  const copyStyle = (obj) => {
+    return {
+      position: 'relative',
+      mt: -1,
+      borderWidth: 0,
+      '& input' : {
+        fontSize: obj.fontSize,
+        color: obj.color,
+        fontWeight: obj.fontWeight,
+      },
+      '& div' : {
+        bgcolor: bgcolor || 'background.default',
+      },
+    }
+  }
 
   const classes = {
     root: {
@@ -50,10 +83,10 @@ export default function Form({ form }) {
       flexDirection: 'column',
       justifyContent: 'center',
       //alignItems: 'center',
-      bgcolor: form.theme.bgcolor || 'background.paper',
+      bgcolor: bgcolor || 'background.paper',
       borderRadius: '20px',
       padding: 10,
-      borderColor: form.theme.primary || 'primary.main',
+      borderColor: primary || 'primary.main',
       borderWidth: 2,
       borderStyle: 'solid'
     },
@@ -83,7 +116,7 @@ export default function Form({ form }) {
     activeQuestionPreview: {
       minWidth: '200px',
       height: '80%',
-      bgcolor: form.theme.bgcolor || 'background.default',
+      bgcolor: bgcolor || 'background.default',
       opacity: 0.8,
       borderRadius: '20px',
       mr: 2,
@@ -92,7 +125,7 @@ export default function Form({ form }) {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      borderColor: form.theme.primary || 'primary.main',
+      borderColor: primary || 'primary.main',
       borderWidth: 2,
       borderStyle: 'solid'
     },
@@ -100,8 +133,8 @@ export default function Form({ form }) {
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
+      //justifyContent: 'center',
+      //alignItems: 'center',
     },
     q: {
       display: 'flex',
@@ -112,43 +145,28 @@ export default function Form({ form }) {
     icon: {
       fontSize: 25,
       marginRight: 1,
-      marginTop: '5px'
+      marginTop: '5px',
+      color: primary || 'primary.main'
     },
     subHeading: {
-      fontStyle: 'italic'
+      opacity: 0.7,
+      fontStyle: 'italic',
+      color: primary || 'primary.main'
     },
     description: {
-      marginTop: 20
+      marginTop: 20,
+      opacity: 0.6,
+      color: primary || 'primary.main'
     },
   };
 
-  const [ questions, setQuestions ] = React.useState(form.questions);
-  const [ activeQuestion, setActiveQuestion ] = React.useState(0);
-  const [ focused, setFocused ] = React.useState('false');
-
-  const copyStyle = (obj) => {
-    return {
-      position: 'relative',
-      mt: -1,
-      borderWidth: 0,
-      '& input' : {
-        fontSize: obj.fontSize,
-        color: obj.color,
-        fontWeight: obj.fontWeight
-      },
-    }
-  }
-
-  const [ heading, setHeading ] = React.useState(questions[activeQuestion].heading);
-  const [ subHeading, setSubHeading ] = React.useState(questions[activeQuestion].subHeading);
-  const [ description, setDescription ] = React.useState(questions[activeQuestion].description);
 
   React.useEffect(() => {
     setHeading(questions[activeQuestion].heading);
     setSubHeading(questions[activeQuestion].subHeading);
     setDescription(questions[activeQuestion].description);
   }, [activeQuestion]);
-  
+
   const updateQuestion = (val) => {
     setQuestions(questions => {
       questions[activeQuestion][focused] = val;
@@ -165,23 +183,25 @@ export default function Form({ form }) {
             <Box sx={classes.q}>
               <ArrowForwardIcon color="primary" sx={classes.icon}/>
               {focused === 'heading' ?
-                <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 36, color: form.theme.primary || 'primary.main'})} autoFocus={true} value={heading} onChange={(e) => setHeading(e.target.value)} onBlur={() => updateQuestion(heading)} />
-                :<Typography variant="h4" color="primary" sx={{ fontWeight: 700}} onClick={() => setFocused('heading')}>{questions[activeQuestion].heading}</Typography>
+                <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 36, color: primary || 'primary.main'})} autoFocus={true} value={heading} onChange={(e) => setHeading(e.target.value)} onBlur={() => updateQuestion(heading)} />
+                :<Typography variant="h4" color="primary" sx={{ fontWeight: 700, color: primary || 'primary.main'}} onClick={() => setFocused('heading')}>{questions[activeQuestion].heading}</Typography>
               }
             </Box>
             {focused === 'subHeading' ?
-              <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 25, color: form.theme.primary || 'primary.main'})} autoFocus={true} value={subHeading} onChange={(e) => setSubHeading(e.target.value)} onBlur={() => updateQuestion(subHeading)} />
-              :<Typography variant="h5" color="primary" sx={{ opacity: 0.7}} onClick={() => setFocused('subHeading')} sx={classes.subHeading}>{questions[activeQuestion].subHeading || "Put Sub Heading here..."}</Typography>
+              <TextField variant="standard" sx={copyStyle({ fontSize: 25, color: primary || 'primary.main'})} autoFocus={true} value={subHeading} onChange={(e) => setSubHeading(e.target.value)} onBlur={() => updateQuestion(subHeading)} />
+              :<Typography variant="h5" onClick={() => setFocused('subHeading')} sx={classes.subHeading}>{questions[activeQuestion].subHeading || "Put Sub Heading here..."}</Typography>
             }
             {focused === 'description' ?
-              <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 25, color: form.theme.primary || 'primary.main'})} autoFocus={true} value={description} onChange={(e) => setDescription(e.target.value)} onBlur={() => updateQuestion(description)} />
-              :<Typography variant="body1" component='div' color="primary" sx={{ opacity: 0.6 }} onClick={() => setFocused('description')} dangerouslySetInnerHTML={{__html: questions[activeQuestion].description}} className={classes.description} />
+              <TextField variant="standard" sx={copyStyle({ fontSize: 14, color: primary || 'primary.main'})} autoFocus={true} value={description} onChange={(e) => setDescription(e.target.value)} onBlur={() => updateQuestion(description)} />
+              :<Typography variant="body1" component='div' color="primary" sx={{ opacity: 0.6 , color: primary || 'primary.main'}} onClick={() => setFocused('description')} dangerouslySetInnerHTML={{__html: questions[activeQuestion].description}} className={classes.description} />
             }
 
             <Input
               question={questions[activeQuestion]}
-              theme={form.theme}
-              disabled={true}
+              theme={{bgcolor: bgcolor, primary: primary, secondary: secondary}}
+              value={undefined}
+              valueChange={setInp}
+              validate={() => true}
             />
           </Box>
           <Box sx={classes.questions}>
@@ -190,13 +210,28 @@ export default function Form({ form }) {
                 key={question.id}
                 onClick={() => setActiveQuestion(idx)}
                 sx={idx == activeQuestion? classes.activeQuestionPreview: classes.questionPreview}>
-                {question.id}
+                <Typography sx={idx == activeQuestion? {color: primary || 'primary.main' }: {color: 'white'}} variant="h3">{question.id}</Typography>
               </Box>
             ))}
           </Box>
         </Box>
       </Grid>
       <Grid item lg={2} md={2} sm={12} xs={12} sx={classes.design}>
+        <Box sx={{py: 3, px: 1}}>
+          <Typography variant="h6">Background</Typography>
+          <TextField variant="standard" value={bgcolor} onChange={(e) => setBgcolor(e.target.value)}/>
+        </Box>
+
+        <Box sx={{py: 3, px: 1}}>
+          <Typography variant="h6">Primary</Typography>
+          <TextField variant="standard" value={primary} onChange={(e) => setPrimary(e.target.value)}/>
+        </Box>
+
+        <Box sx={{py: 3, px: 1}}>
+          <Typography variant="h6">Secondary</Typography>
+          <TextField variant="standard" value={secondary} onChange={(e) => setS(e.target.value)}/>
+        </Box>
+
       </Grid>
     </Grid>
   )

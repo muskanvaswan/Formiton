@@ -2,16 +2,34 @@
 import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import validator from './Validators'
+import { styled } from '@mui/material/styles';
+
+
 
 export default function Input({ question, theme, value, valueChange, validate, disabled }) {
+  const CssTextField = styled(TextField)({
+    '& label.Mui-focused': {
+      color: theme.primary || 'primary.main',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: theme.primary || 'primary.main',
+    },
+  });
 
   const input = {
       //height: 40,
       //marginTop: 20,
       '& input' : {
         fontSize: 25,
-        color: theme.primary || 'primary.main'
+        color: theme.primary || 'primary.main',
+        "& disabled": {
+          color: theme.primary || 'primary.main'
+        },
+        '& .MuiInput-underline:after': {
+          borderBottomColor: theme.primary || 'primary.main',
+        },
       },
+      color: theme.primary || 'primary.main',
       '& div' : {
         fontSize: 25,
         backgroundColor: theme.bgcolor || 'background.default',
@@ -22,11 +40,17 @@ export default function Input({ question, theme, value, valueChange, validate, d
       },
       '& option' : {
         fontSize: 25,
-      }
+      },
+      borderColor: theme.primary || 'primary.main'
+
     }
 
+  const disabledInput = {
+    color: theme.primary || 'primary.main'
+  }
+
   return (
-    <TextField
+    <CssTextField
       variant="standard"
       disabled={disabled}
       type={question.type}
@@ -46,6 +70,6 @@ export default function Input({ question, theme, value, valueChange, validate, d
           <MenuItem value={item.value}>{item.name}</MenuItem>
         )
       })}
-    </TextField>
+    </CssTextField>
   )
 }
