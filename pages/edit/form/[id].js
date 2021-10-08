@@ -9,7 +9,7 @@ import Navigators from '../../../src/components/forms/Navigators'
 
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField'
-
+import ColorPicker from '../../../src/components/create/ColorPicker'
 
 import { useTheme } from '@mui/material/styles'
 
@@ -70,11 +70,13 @@ export default function Form({ form }) {
 
   const classes = {
     root: {
+      minHeight: '100vh',
       height: '100vh',
       justifyContent: 'center',
       alignItems: 'center',
       p: 5,
       pb: 0,
+
     },
     preview: {
       height: '100%',
@@ -231,22 +233,22 @@ export default function Form({ form }) {
         </Box>
       </Grid>
       <Grid item lg={2} md={2} sm={12} xs={12} sx={classes.design}>
-        <Box sx={{py: 3, px: 1}}>
-          <Typography variant="h6">Background</Typography>
-          <TextField variant="standard" value={bgcolor} onChange={(e) => setBgcolor(e.target.value)}/>
-          <input type="color" value={bgcolor} onChange={(e) => setBgcolor(e.target.value)} />
+        <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
+          <ColorPicker value={bgcolor} setValue={setBgcolor} />
+          <Typography variant="caption" sx={{mx: 1}}>Background</Typography>
+          {/*<TextField variant="standard" value={bgcolor} onChange={(e) => setBgcolor(e.target.value)}/>*/}
         </Box>
 
-        <Box sx={{py: 3, px: 1}}>
-          <Typography variant="h6">Primary</Typography>
-          <TextField variant="standard" value={primary} onChange={(e) => setPrimary(e.target.value)}/>
-          <input type="color" value={primary} onChange={(e) => setPrimary(e.target.value)} />
+        <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
+          <ColorPicker value={primary} setValue={setPrimary} />
+          <Typography variant="caption" sx={{mx: 1}}>Primary</Typography>
+          {/*<TextField variant="standard" value={primary} onChange={(e) => setPrimary(e.target.value)}/>*/}
         </Box>
 
-        <Box sx={{py: 3, px: 1}}>
-          <Typography variant="h6">Secondary</Typography>
-          <TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>
-          <input type="color" value={secondary} onChange={(e) => setSecondary(e.target.value)} />
+        <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
+          <ColorPicker value={secondary} setValue={setSecondary} />
+          <Typography variant="caption" sx={{mx: 1}}>Secondary</Typography>
+          {/*<TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>*/}
         </Box>
 
       </Grid>

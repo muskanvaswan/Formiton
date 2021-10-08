@@ -15,6 +15,7 @@
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
+    "react-color": "^2.19.3",
     "react-dom": "latest"
   },
   "scripts": {
