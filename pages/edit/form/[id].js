@@ -183,6 +183,7 @@ export default function Form({ form }) {
     setPlaceholder(questions[activeQuestion].placeholder);
     setButtonText(questions[activeQuestion].buttonText || "Save");
     setRequired(questions[activeQuestion].required);
+    setType(questions[activeQuestion].type);
   }, [activeQuestion]);
 
   const updateQuestion = (val) => {
@@ -191,6 +192,13 @@ export default function Form({ form }) {
       return questions;
     })
     setFocused('false');
+  }
+
+  const updateOptions = (options) => {
+    setQuestions(questions => {
+      questions[activeQuestion].options = options;
+      return questions;
+    })
   }
 
   const handleCheck = (e) => {
@@ -288,7 +296,7 @@ export default function Form({ form }) {
             <MenuItem value={"number"}>Number</MenuItem>
           </Select>
         </Box>
-        {type === 'select' && <OptionsEdit />}
+        {type === 'select' && <OptionsEdit options={questions[activeQuestion].options} update={updateOptions}/>}
         <Box sx={{px: 1, py: 2}}>
           <Typography variant="caption" color={focused ==='placeholder' && "primary"}>Required</Typography>
           <TextField
