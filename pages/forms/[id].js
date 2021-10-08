@@ -8,7 +8,10 @@ export const getServerSideProps = async (query) => {
   const { id } = query.query;
   const form = {
     id: id,
-    theme: {primary: 'rgb(100, 148, 219)'},
+    theme: {
+      primary: 'rgb(100, 148, 219)',
+      secondary: 'rgb(42, 127, 255)'
+    },
     questions: getQuestions(),
     welcome: {
       title: "The Trial form",

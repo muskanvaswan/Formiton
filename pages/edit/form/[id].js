@@ -19,7 +19,10 @@ export const getServerSideProps = async (query) => {
   const { id } = query.query;
   const form = {
     id: id,
-    theme: {primary: 'rgb(100, 148, 219)'},
+    theme: {
+      primary: 'rgb(100, 148, 219)',
+      secondary: 'rgb(42, 127, 255)'
+    },
     questions: getQuestions(),
     welcome: {
       title: "The Trial form",
@@ -231,16 +234,19 @@ export default function Form({ form }) {
         <Box sx={{py: 3, px: 1}}>
           <Typography variant="h6">Background</Typography>
           <TextField variant="standard" value={bgcolor} onChange={(e) => setBgcolor(e.target.value)}/>
+          <input type="color" value={bgcolor} onChange={(e) => setBgcolor(e.target.value)} />
         </Box>
 
         <Box sx={{py: 3, px: 1}}>
           <Typography variant="h6">Primary</Typography>
           <TextField variant="standard" value={primary} onChange={(e) => setPrimary(e.target.value)}/>
+          <input type="color" value={primary} onChange={(e) => setPrimary(e.target.value)} />
         </Box>
 
         <Box sx={{py: 3, px: 1}}>
           <Typography variant="h6">Secondary</Typography>
           <TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>
+          <input type="color" value={secondary} onChange={(e) => setSecondary(e.target.value)} />
         </Box>
 
       </Grid>
