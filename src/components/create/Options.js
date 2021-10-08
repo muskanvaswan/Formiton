@@ -7,43 +7,36 @@ import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-export default function CustomDeleteIconChips() {
+export default function CustomDeleteIconChips({options, update}) {
+  const [ list, setList ] = React.useState(options);
+
+
   const handleClick = () => {
     console.info('You clicked the Chip.');
   };
 
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
+  React.useEffect(() => {
+    update(list)
+  }, [list])
+  
+  const handleDelete = (key) => {
+    setList(list => list.filter((el, index) => index !== key))
   };
 
   return (
     <Box sx={{px: 1, py: 2}}>
       <Typography variant="caption">Options</Typography>
       <Box sx={{display: 'flex', gap: '3px', flexWrap: 'wrap'}}>
-        <Chip
-          label="Custom delete icon"
-          onClick={handleClick}
-          onDelete={handleDelete}
-          deleteIcon={<DeleteIcon size="small" sx={{fontSize: 10}}/>}
-          variant="outlined"
-          sx={{fontSize: 10}}
-        />
-        <Chip
-          label="Custom"
-          onClick={handleClick}
-          onDelete={handleDelete}
-          deleteIcon={<DeleteIcon size={10}/>}
-          variant="outlined"
-          sx={{fontSize: 10}}
-        />
-        <Chip
-          label="Custom"
-          onClick={handleClick}
-          onDelete={handleDelete}
-          deleteIcon={<DeleteIcon size={10}/>}
-          variant="outlined"
-          sx={{fontSize: 10}}
-        />
+        {list.map((option, idx)  => (
+          <Chip
+            key={idx}
+            label={option.name}
+            onClick={handleClick}
+            onDelete={() => handleDelete(idx)}
+            variant="outlined"
+            sx={{fontSize: 10}}
+          />
+        ))}
         <IconButton
           onClick={handleClick}
           variant="outlined"
