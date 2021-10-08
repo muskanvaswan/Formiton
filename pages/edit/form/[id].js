@@ -278,13 +278,14 @@ export default function Form({ form }) {
           {/*<TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>*/}
         </Box>
         <Box sx={{px: 1, py: 2, mt: 5}}>
+          <Typography variant="caption" color={focused ==='type' && "primary"}>Type</Typography>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={type}
             variant="standard"
             sx={{width: '100%'}}
-            label="Age"
+            label="Type"
             onChange={(e) => setType(e.target.value)}
             onFocus={() => setFocused('type')}
             onBlur={() => updateQuestion(type)}
@@ -296,9 +297,9 @@ export default function Form({ form }) {
             <MenuItem value={"number"}>Number</MenuItem>
           </Select>
         </Box>
-        {type === 'select' && <OptionsEdit options={questions[activeQuestion].options} update={updateOptions}/>}
+        {type === 'select' && <OptionsEdit options={questions[activeQuestion].options} update={setQuestions} active={activeQuestion}/>}
         <Box sx={{px: 1, py: 2}}>
-          <Typography variant="caption" color={focused ==='placeholder' && "primary"}>Required</Typography>
+          <Typography variant="caption" color={focused ==='placeholder' && "primary"}>Placeholder</Typography>
           <TextField
             variant="standard"
             onFocus={() => setFocused('placeholder')}
