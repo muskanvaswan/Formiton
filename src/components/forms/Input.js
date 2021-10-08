@@ -6,19 +6,17 @@ import { styled } from '@mui/material/styles';
 
 
 
-export default function Input({ question, theme, value, valueChange, validate, disabled }) {
-  const CssTextField = styled(TextField)({
-    '& label.Mui-focused': {
-      color: theme.primary || 'primary.main',
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: theme.primary || 'primary.main',
-    },
-  });
+export default function Input({ question, theme, value, valueChange, validate }) {
 
   const input = {
       //height: 40,
       //marginTop: 20,
+      '& label.Mui-focused': {
+        color: theme.primary || 'primary.main',
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: theme.primary || 'primary.main',
+      },
       '& input' : {
         fontSize: 25,
         color: theme.primary || 'primary.main',
@@ -50,9 +48,8 @@ export default function Input({ question, theme, value, valueChange, validate, d
   }
 
   return (
-    <CssTextField
+    <TextField
       variant="standard"
-      disabled={disabled}
       type={question.type}
       select={question.type == 'select'}
       error={!validator(value, question.type)}
@@ -70,6 +67,6 @@ export default function Input({ question, theme, value, valueChange, validate, d
           <MenuItem value={item.value}>{item.name}</MenuItem>
         )
       })}
-    </CssTextField>
+    </TextField>
   )
 }
