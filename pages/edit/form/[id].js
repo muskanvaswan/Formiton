@@ -9,7 +9,11 @@ import Navigators from '../../../src/components/forms/Navigators'
 
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import Switch from '@mui/material/Switch'
 import ColorPicker from '../../../src/components/create/ColorPicker'
+import OptionsEdit from '../../../src/components/create/Options'
 
 import { useTheme } from '@mui/material/styles'
 
@@ -47,6 +51,10 @@ export default function Form({ form }) {
   const [ heading, setHeading ] = React.useState(questions[activeQuestion].heading);
   const [ subHeading, setSubHeading ] = React.useState(questions[activeQuestion].subHeading);
   const [ description, setDescription ] = React.useState(questions[activeQuestion].description);
+  const [ placeholder, setPlaceholder ] = React.useState(questions[activeQuestion].placeholder);
+  const [ buttonText, setButtonText ] = React.useState(questions[activeQuestion].buttonText);
+  const [ required, setRequired ] = React.useState(questions[activeQuestion].required);
+  const [ type, setType ] = React.useState(questions[activeQuestion].type);
 
   const [ bgcolor, setBgcolor ] = React.useState(form.theme.bgcolor || theme.palette.background.default)
   const [ primary, setPrimary ] = React.useState(form.theme.primary || theme.palette.primary.main)
@@ -172,6 +180,9 @@ export default function Form({ form }) {
     setHeading(questions[activeQuestion].heading);
     setSubHeading(questions[activeQuestion].subHeading);
     setDescription(questions[activeQuestion].description);
+    setPlaceholder(questions[activeQuestion].placeholder);
+    setButtonText(questions[activeQuestion].buttonText || "Save");
+    setRequired(questions[activeQuestion].required);
   }, [activeQuestion]);
 
   const updateQuestion = (val) => {
@@ -182,6 +193,13 @@ export default function Form({ form }) {
     setFocused('false');
   }
 
+  const handleCheck = (e) => {
+    setRequired(e.target.checked);
+    setQuestions(questions => {
+      questions[activeQuestion].required = e.target.checked;
+      return questions;
+    })
+  }
   return (
     <Grid container spacing={4} sx={classes.root}>
       <Grid item lg={10} md={10} sm={12} xs={12} sx={classes.preview}>
@@ -195,6 +213,7 @@ export default function Form({ form }) {
               }
             </Box>
             {focused === 'subHeading' ?
+
               <TextField variant="standard" sx={copyStyle({ fontSize: 25, color: primary || 'primary.main'})} autoFocus={true} value={subHeading} onChange={(e) => setSubHeading(e.target.value)} onBlur={() => updateQuestion(subHeading)} />
               :<Typography variant="h5" onClick={() => setFocused('subHeading')} sx={classes.subHeading}>{questions[activeQuestion].subHeading || "Put Sub Heading here..."}</Typography>
             }
@@ -249,6 +268,53 @@ export default function Form({ form }) {
           <ColorPicker value={secondary} setValue={setSecondary} />
           <Typography variant="caption" sx={{mx: 1}}>Secondary</Typography>
           {/*<TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>*/}
+        </Box>
+        <Box sx={{px: 1, py: 2, mt: 5}}>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={type}
+            variant="standard"
+            sx={{width: '100%'}}
+            label="Age"
+            onChange={(e) => setType(e.target.value)}
+            onFocus={() => setFocused('type')}
+            onBlur={() => updateQuestion(type)}
+          >
+            <MenuItem value={"text"}>Text</MenuItem>
+            <MenuItem value={"select"}>Select</MenuItem>
+            <MenuItem value={"email"}>E-mail</MenuItem>
+            <MenuItem value={"url"}>URL</MenuItem>
+            <MenuItem value={"number"}>Number</MenuItem>
+          </Select>
+        </Box>
+        {type === 'select' && <OptionsEdit />}
+        <Box sx={{px: 1, py: 2}}>
+          <Typography variant="caption" color={focused ==='placeholder' && "primary"}>Required</Typography>
+          <TextField
+            variant="standard"
+            onFocus={() => setFocused('placeholder')}
+            value={placeholder}
+            onChange={(e) => setPlaceholder(e.target.value)}
+            onBlur={() => updateQuestion(placeholder)}
+          />
+        </Box>
+        <Box sx={{px: 1, py: 2, display: 'flex', alignItems: 'center'}}>
+          <TextField
+            variant="standard"
+            label="Button Text"
+            onFocus={() => setFocused('buttonText')}
+            value={buttonText}
+            onChange={(e) => setButtonText(e.target.value)}
+            onBlur={() => updateQuestion(buttonText)}/>
+        </Box>
+        <Box sx={{px: 1, py: 2, display: 'flex', alignItems: 'center'}}>
+          <Typography variant="body1" sx={{}}>Required</Typography>
+          <Switch
+            variant="standard"
+            checked={required}
+            onChange={handleCheck}
+          />
         </Box>
 
       </Grid>
