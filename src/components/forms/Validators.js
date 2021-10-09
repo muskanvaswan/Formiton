@@ -10,7 +10,7 @@ const validateURL = (value) => {
 
 const validatePhoneNumber = (val) => {
   if (val != null)
-    return val.toString().length === 10;
+    return val.length === 10;
   else false
 }
 
@@ -23,7 +23,7 @@ export default function validator(value, type) {
   if (type == 'email') {
     return validateEmail(value)
   }
-  else if (type == 'number') {
+  else if (type == 'tel') {
     return validatePhoneNumber(value);
   }
   else if (type == 'url') {

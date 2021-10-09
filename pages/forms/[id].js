@@ -23,7 +23,7 @@ export const getServerSideProps = async (query) => {
 
 export default function FormPage({ form }) {
   return (
-    <Box sx={{ minHeight: '100vh', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', }}>
+    <Box sx={{ minHeight: '100vh', width: '100%' }}>
       <Form
         theme={form.theme}
         questions={form.questions}

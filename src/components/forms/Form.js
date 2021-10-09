@@ -6,6 +6,7 @@ import Submit from "./Submit";
 
 import LinearProgress from '@mui/material/LinearProgress';
 import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
 
 export default function Form({ questions, theme, welcome, submit }) {
 
@@ -14,13 +15,8 @@ export default function Form({ questions, theme, welcome, submit }) {
   const limit = questions.length;
 
   return (
-    <>
-      <LinearProgress
-        value={ques / (limit + 1) * 100}
-        color="primary"
-        sx={{height: 5, bgcolor: theme.bgcolor || 'background.default'}}
-        variant="determinate"
-      />
+    <Box sx={{width: '100%'}}>
+      <LinearProgress variant="determinate" value={(ques / (limit + 1) ) * 100} sx={{height: '10px', bgcolor: theme.bgcolor || 'background.default'}}/>
       <Container maxWidth="md" sx={{overflowY: {lg: 'hidden', sm: 'scroll'}}}>
         {ques == 0 && <Welcome start={updateQuestion} data={welcome} />}
         {ques > 0 && ques <= limit ?
@@ -41,6 +37,6 @@ export default function Form({ questions, theme, welcome, submit }) {
             />
           ))}
       </Container>
-    </>
+    </Box>
   )
 }

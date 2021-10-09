@@ -295,6 +295,7 @@ export default function Form({ form }) {
             <MenuItem value={"email"}>E-mail</MenuItem>
             <MenuItem value={"url"}>URL</MenuItem>
             <MenuItem value={"number"}>Number</MenuItem>
+            <MenuItem value={"tel"}>Phone Number</MenuItem>
           </Select>
         </Box>
         {type === 'select' && <OptionsEdit options={questions[activeQuestion].options} update={setQuestions} active={activeQuestion}/>}
