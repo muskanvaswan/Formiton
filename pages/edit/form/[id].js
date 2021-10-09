@@ -12,8 +12,8 @@ import TextField from '@mui/material/TextField'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Switch from '@mui/material/Switch'
-import ColorPicker from '../../../src/components/create/ColorPicker'
-import OptionsEdit from '../../../src/components/create/Options'
+import ColorPicker from '../../../src/components/edit/ColorPicker'
+import OptionsEdit from '../../../src/components/edit/Options'
 
 import { useTheme } from '@mui/material/styles'
 
@@ -84,6 +84,7 @@ export default function Form({ form }) {
       alignItems: 'center',
       p: 5,
       pb: 0,
+      pr: {lg: 0, md: 0, sm: 5, xs: 5},
 
     },
     preview: {
@@ -100,10 +101,11 @@ export default function Form({ form }) {
       //alignItems: 'center',
       bgcolor: bgcolor || 'background.paper',
       borderRadius: '20px',
-      padding: 10,
+      p: 10,
       borderColor: primary || 'primary.main',
       borderWidth: 2,
-      borderStyle: 'solid'
+      borderStyle: 'solid',
+      overflowY: 'scroll'
     },
     questions: {
       height: '20%',
@@ -114,6 +116,7 @@ export default function Form({ form }) {
       display: 'flex',
       //flexWrap: 'nowrap',
       overflowX: 'scroll',
+
 
     },
     questionPreview: {
@@ -150,6 +153,8 @@ export default function Form({ form }) {
       flexDirection: 'column',
       //justifyContent: 'center',
       //alignItems: 'center',
+      overflowY: 'scroll',
+      pr: 5,
     },
     q: {
       display: 'flex',
@@ -209,7 +214,7 @@ export default function Form({ form }) {
     })
   }
   return (
-    <Grid container spacing={4} sx={classes.root}>
+    <Grid container spacing={2} sx={classes.root}>
       <Grid item lg={10} md={10} sm={12} xs={12} sx={classes.preview}>
         <Box sx={{height: '100%', width: '100%', p:0}}>
           <Box sx={classes.question}>
