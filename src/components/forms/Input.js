@@ -27,6 +27,12 @@ export default function Input({ question, theme, value, valueChange, validate })
           borderBottomColor: theme.primary || 'primary.main',
         },
       },
+      '& input[type=file]': {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 20,
+      },
       color: theme.primary || 'primary.main',
       '& div' : {
         fontSize: 25,
