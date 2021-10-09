@@ -7,18 +7,39 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+model Form {
+  id        Int        @id @default(autoincrement())
+  questions Question[]
+  theme     Theme?
+}
+
 model Question {
-  id          Int     @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
+  form        Form     @relation(fields: [formId], references: [id])
+  formId      Int
   question    String
   subText     String?
   description String?
-  required    Boolean @default(false)
+  required    Boolean  @default(false)
   type        String?
   placeholder String?
+  options     Option[]
+}
+
+model Option {
+  id         Int      @id @default(autoincrement())
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+  name       String
+  value      String
 }
 
 model Theme {
   id        Int     @id @default(autoincrement())
+  form      Form    @relation(fields: [formId], references: [id])
+  formId    Int
   primary   String?
   secondary String?
+  bgcolor   String?
+  text      String?
 }

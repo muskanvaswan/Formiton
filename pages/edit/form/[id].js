@@ -65,7 +65,7 @@ export default function Form({ form }) {
       position: 'relative',
       mt: -1,
       borderWidth: 0,
-      '& input' : {
+      '& input, textarea' : {
         fontSize: obj.fontSize,
         color: obj.color,
         fontWeight: obj.fontWeight,
@@ -231,7 +231,7 @@ export default function Form({ form }) {
               :<Typography variant="h5" onClick={() => setFocused('subHeading')} sx={classes.subHeading}>{questions[activeQuestion].subHeading || "Put Sub Heading here..."}</Typography>
             }
             {focused === 'description' ?
-              <TextField variant="standard" sx={copyStyle({ fontSize: 14, color: primary || 'primary.main'})} autoFocus={true} value={description} onChange={(e) => setDescription(e.target.value)} onBlur={() => updateQuestion(description)} />
+              <TextField variant="standard" sx={copyStyle({ fontSize: 14, color: primary || 'primary.main'})} autoFocus={true} value={description} onChange={(e) => setDescription(e.target.value)} onBlur={() => updateQuestion(description)} multiline={true}/>
               :<Typography variant="body1" component='div' color="primary" sx={{ opacity: 0.6 , color: primary || 'primary.main'}} onClick={() => setFocused('description')} dangerouslySetInnerHTML={{__html: questions[activeQuestion].description}} className={classes.description} />
             }
 
