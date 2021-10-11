@@ -31,11 +31,21 @@ export default async function handle(req, res) {
       const form = data.form
 
       for(let question of form.questions) {
-        console.log(question)
+
+        let options = []
+        //let updates = []
+        await prisma.option.deleteMany({
+          where: {questionId: question.id}
+        })
+
+
+        for(let option of question.options) {
+            options.push({name: option.name, value: option.value})
+        }
 
         await prisma.question.upsert({
           where: {
-            id: Number(formId)
+            id: Number(question.id)
           },
           update: {
             question: question.question,
@@ -45,16 +55,18 @@ export default async function handle(req, res) {
             required: question.required,
             buttonText: question.buttonText,
             type: question.type,
+            options: {create: options}
           },
           create: {
-              form: {connect: {id: Number(formId)}},
-              question: question.question,
-              subText: question.subText,
-              description: question.description,
-              placeholder: question.placeholder,
-              required: question.required,
-              buttonText: question.buttonText,
-              type: question.type,
+            form: {connect: {id: Number(formId)}},
+            question: question.question,
+            subText: question.subText,
+            description: question.description,
+            placeholder: question.placeholder,
+            required: question.required,
+            buttonText: question.buttonText,
+            type: question.type,
+            options: {create: options}
           }
         });
 

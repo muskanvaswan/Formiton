@@ -66,6 +66,7 @@ export default function CustomDeleteIconChips({options, update, index, active}) 
       questions[active].options = list;
       return questions;
     })
+    console.log(options)
   }, [list])
 
   const handleDelete = (key) => {

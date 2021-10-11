@@ -189,7 +189,6 @@ export default function Form(props) {
       color: primary || 'primary.main'
     },
   };
-  React.useEffect(() => {console.log(questions[activeQuestion])}, [])
 
   React.useEffect(() => {
     setQuestion(questions[activeQuestion].question);
@@ -326,7 +325,7 @@ export default function Form(props) {
           {/*<TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>*/}
         </Box>
         <Box sx={{px: 1, py: 2, mt: 5}}>
-
+          <Typography variant="caption" color={focused == 'type'? "primary": ""}>Type</Typography>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
