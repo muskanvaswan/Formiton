@@ -11,6 +11,7 @@ import Navigators from '../../../src/components/forms/Navigators'
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField'
 import Select from '@mui/material/Select'
+import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import Switch from '@mui/material/Switch'
 import ColorPicker from '../../../src/components/edit/ColorPicker'
@@ -37,8 +38,6 @@ export const getServerSideProps = async (query) => {
   const res = await fetch(`http://localhost:3000/api/form/${id}`);
   const form = await res.json()
 
-  console.log(form)
-
   if (!form) {
     return {
       notFound: true,
@@ -51,7 +50,6 @@ export const getServerSideProps = async (query) => {
 export default function Form(props) {
 
   const form = JSON.parse(props.form)
-  console.log(form)
   const theme = useTheme();
 
   const [ questions, setQuestions ] = React.useState(form.questions);
@@ -225,6 +223,32 @@ export default function Form(props) {
       return questions;
     })
   }
+
+  const save = async () => {
+    const data = {
+      form: {
+        questions: questions,
+        theme: {
+          primary: primary,
+          secondary: secondary,
+          bgcolor: bgcolor
+        }
+      }
+    }
+    try {
+      const rawResponse = await fetch(`http://localhost:3000/api/form/${form.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      console.log(rawResponse)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Grid container spacing={2} sx={classes.root}>
       <Grid item lg={10} md={10} sm={12} xs={12} sx={classes.preview}>
@@ -349,6 +373,9 @@ export default function Form(props) {
             checked={required}
             onChange={handleCheck}
           />
+        </Box>
+        <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
+          <Button variant="contained" onClick={save} fullWidth>Save</Button>
         </Box>
 
       </Grid>

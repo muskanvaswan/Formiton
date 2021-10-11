@@ -1,0 +1,42 @@
+var form;
+for(question in data.questions) {
+  form = await prisma.question.upsert({
+          where: {
+            id: question.id
+          },
+          update: {
+              question: question.question,
+              subText: question.subText,
+              description: question.description,
+              options: {
+                createMany: question.options
+              },
+          },
+          create: {
+              formId: formId,
+              question: question.question,
+              subText: question.subText,
+              description: question.description,
+              options: {
+                createMany: question.options
+              },
+          }
+  });
+}
+
+const rawResponse = await fetch(`http://localhost:3000/api/form/${form.id}`, {
+  method: 'UPDATE',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    form: {
+      questions: questions,
+      theme: {
+        primary: primary,
+        secondary: secondary,
+        bgcolor: bgcolor
+      }
+    }
+  })
+});

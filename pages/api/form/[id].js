@@ -24,44 +24,32 @@ export default async function handle(req, res) {
           id: Number(id),
         },
       })
-  } else if (req.method === 'UPDATE') {
-      const formId = req.query.id;
+  } else if (req.method === 'POST') {
+
       const data = req.body;
-      var form;
-      for(question in data.questions) {
-        form = await prisma.form.update({
-          where: { id: Number(formId) },
-          data: {
-            questions: {
-              upsert: {
-                where: {
-                  id: question.id
-                },
-                create: {
-                  data: question
-                }
-              }
-            },
-        }});
-      }
-      form = await prisma.form.update({
+      console.log(data)
+      const form = data.form
+      await prisma.form.update({
         where: { id: Number(formId) },
         data: {
           theme: {
             upsert: {
-              where: {
-                id: data.theme.id
-              },
               create: {
-                primary: data.theme.primary,
-                secondary: data.theme.secondary,
-                bgcolor: data.theme.bgcolor,
-                text: data.theme.text,
+                primary: form.theme.primary,
+                secondary: form.theme.secondary,
+                bgcolor: form.theme.bgcolor,
+                text: form.theme.text,
+              },
+              update: {
+                primary: form.theme.primary,
+                secondary: form.theme.secondary,
+                bgcolor: form.theme.bgcolor,
+                text: form.theme.text,
               }
             }
           },
       }});
-      res.json(form.id)
+      res.json(formId)
 
   } else {
     throw new Error(
