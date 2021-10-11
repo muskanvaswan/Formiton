@@ -24,9 +24,10 @@ model Question {
   subText     String?
   description String?
   required    Boolean  @default(false)
-  type        String?
+  type        String?  @default("text")
   placeholder String?
   options     Option[]
+  buttonText  String?
 }
 
 model Option {

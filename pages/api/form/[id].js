@@ -40,11 +40,15 @@ export default async function handle(req, res) {
           update: {
             question: question.question,
             subText: question.subText,
-            description: question.description
+            description: question.description,
+            placeholder: question.placeholder,
+            required: question.required,
+            buttonText: question.buttonText,
+            type: question.type,
           },
           create: {
               form: {connect: {id: Number(formId)}},
-              question: "here",
+              question: question.question,
               subText: question.subText,
               description: question.description,
               placeholder: question.placeholder,

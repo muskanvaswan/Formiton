@@ -64,7 +64,7 @@ export default function Form(props) {
   const [ placeholder, setPlaceholder ] = React.useState(questions[activeQuestion].placeholder);
   const [ buttonText, setButtonText ] = React.useState(questions[activeQuestion].buttonText);
   const [ required, setRequired ] = React.useState(questions[activeQuestion].required);
-  const [ type, setType ] = React.useState(questions[activeQuestion].type);
+  const [ type, setType ] = React.useState(questions[activeQuestion].type || "text");
 
   const [ bgcolor, setBgcolor ] = React.useState(form.theme.bgcolor || theme.palette.background.default)
   const [ primary, setPrimary ] = React.useState(form.theme.primary || theme.palette.primary.main)
@@ -189,7 +189,7 @@ export default function Form(props) {
       color: primary || 'primary.main'
     },
   };
-
+  React.useEffect(() => {console.log(questions[activeQuestion])}, [])
 
   React.useEffect(() => {
     setQuestion(questions[activeQuestion].question);
@@ -214,6 +214,7 @@ export default function Form(props) {
       questions[activeQuestion].options = options;
       return questions;
     })
+    console.log("updated")
   }
 
   const handleCheck = (e) => {
@@ -325,21 +326,24 @@ export default function Form(props) {
           {/*<TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>*/}
         </Box>
         <Box sx={{px: 1, py: 2, mt: 5}}>
-          <Typography variant="caption" color={focused ==='type' && "primary"}>Type</Typography>
+
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={type}
+            type="select"
             variant="standard"
-            sx={{width: '100%'}}
+            sx={{width: '100%', '& svg' : {
+              color: theme.primary || 'primary.main'
+            },}}
             label="Type"
             onChange={(e) => setType(e.target.value)}
             onFocus={() => setFocused('type')}
             onBlur={() => updateQuestion(type)}
           >
-            <MenuItem value={"text"}>Text</MenuItem>
+            <MenuItem value={"text"} default={type == 'text'}>Text</MenuItem>
             <MenuItem value={"select"}>Select</MenuItem>
-            <MenuItem value={"email"}>E-mail</MenuItem>
+            <MenuItem value={"email"} default={type == 'email'}>E-mail</MenuItem>
             <MenuItem value={"url"}>URL</MenuItem>
             <MenuItem value={"number"}>Number</MenuItem>
             <MenuItem value={"tel"}>Phone Number</MenuItem>
