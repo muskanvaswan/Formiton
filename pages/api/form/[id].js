@@ -29,7 +29,11 @@ export default async function handle(req, res) {
       const data = req.body;
       console.log(data)
       const form = data.form
-
+      await prisma.question.deleteMany({
+        where: {
+          OR: form.deleted
+        }
+      })
       for(let question of form.questions) {
 
         let options = []

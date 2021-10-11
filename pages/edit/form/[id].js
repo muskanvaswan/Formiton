@@ -23,18 +23,7 @@ import getQuestions from '../../../sample-questions'
 
 export const getServerSideProps = async (query) => {
   const { id } = query.query;
-  const form_def = {
-    id: id,
-    theme: {
-      primary: 'rgb(100, 148, 219)',
-      secondary: 'rgb(42, 127, 255)'
-    },
-    questions: getQuestions(),
-    welcome: {
-      title: "The Trial form",
-      description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    }
-  }
+
   const res = await fetch(`http://localhost:3000/api/form/${id}`);
   const form = await res.json()
 
@@ -225,10 +214,10 @@ export default function Form(props) {
   }
 
   const deleteQuestion = () => {
-    if (question[activeQuestion].id) {
-      setDeleted(dele => [...dele, {id: question[activeQuestion].id}])
+    if (questions[activeQuestion].id) {
+      setDeleted(dele => [...dele, {id: questions[activeQuestion].id}])
     }
-
+    console.log(questions[activeQuestion].id)
     setQuestions(list => list.filter((el, index) => index !== (activeQuestion)))
     setActiveQuestion(active => (active > 0? active - 1: active))
   }
@@ -250,6 +239,7 @@ export default function Form(props) {
   const save = async () => {
     const data = {
       form: {
+        deleted: deleted,
         questions: questions,
         theme: {
           primary: primary,
