@@ -4,6 +4,7 @@ import Box from '@mui/material/Box'
 
 import IconButton from '@mui/material/IconButton'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import AddIcon from '@mui/icons-material/Add'
 import Input from '../../../src/components/forms/Input'
 import Navigators from '../../../src/components/forms/Navigators'
 
@@ -21,7 +22,7 @@ import getQuestions from '../../../sample-questions'
 
 export const getServerSideProps = async (query) => {
   const { id } = query.query;
-  const form = {
+  const form_def = {
     id: id,
     theme: {
       primary: 'rgb(100, 148, 219)',
@@ -33,13 +34,24 @@ export const getServerSideProps = async (query) => {
       description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }
   }
-  return {props: {form: form}}
+  const res = await fetch(`http://localhost:3000/api/form/${id}`);
+  const form = await res.json()
+
+  console.log(form)
+
+  if (!form) {
+    return {
+      notFound: true,
+    }
+  }
+  return {props: {form: JSON.stringify(form)}}
 }
 
 
-export default function Form({ form }) {
+export default function Form(props) {
 
-
+  const form = JSON.parse(props.form)
+  console.log(form)
   const theme = useTheme();
 
   const [ questions, setQuestions ] = React.useState(form.questions);
@@ -48,8 +60,8 @@ export default function Form({ form }) {
 
   const [ inp, setInp ] = React.useState();
 
-  const [ heading, setHeading ] = React.useState(questions[activeQuestion].heading);
-  const [ subHeading, setSubHeading ] = React.useState(questions[activeQuestion].subHeading);
+  const [ question, setQuestion ] = React.useState(questions[activeQuestion].question);
+  const [ subText, setSubText ] = React.useState(questions[activeQuestion].subText);
   const [ description, setDescription ] = React.useState(questions[activeQuestion].description);
   const [ placeholder, setPlaceholder ] = React.useState(questions[activeQuestion].placeholder);
   const [ buttonText, setButtonText ] = React.useState(questions[activeQuestion].buttonText);
@@ -168,7 +180,7 @@ export default function Form({ form }) {
       marginTop: '5px',
       color: primary || 'primary.main'
     },
-    subHeading: {
+    subText: {
       opacity: 0.7,
       fontStyle: 'italic',
       color: primary || 'primary.main'
@@ -182,8 +194,8 @@ export default function Form({ form }) {
 
 
   React.useEffect(() => {
-    setHeading(questions[activeQuestion].heading);
-    setSubHeading(questions[activeQuestion].subHeading);
+    setQuestion(questions[activeQuestion].question);
+    setSubText(questions[activeQuestion].subText);
     setDescription(questions[activeQuestion].description);
     setPlaceholder(questions[activeQuestion].placeholder);
     setButtonText(questions[activeQuestion].buttonText || "Save");
@@ -220,15 +232,15 @@ export default function Form({ form }) {
           <Box sx={classes.question}>
             <Box sx={classes.q}>
               <ArrowForwardIcon color="primary" sx={classes.icon}/>
-              {focused === 'heading' ?
-                <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 36, color: primary || 'primary.main'})} autoFocus={true} value={heading} onChange={(e) => setHeading(e.target.value)} onBlur={() => updateQuestion(heading)} />
-                :<Typography variant="h4" color="primary" sx={{ fontWeight: 700, color: primary || 'primary.main'}} onClick={() => setFocused('heading')}>{questions[activeQuestion].heading}</Typography>
+              {focused === 'question' ?
+                <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 36, color: primary || 'primary.main'})} autoFocus={true} value={question} onChange={(e) => setQuestion(e.target.value)} onBlur={() => updateQuestion(question)} />
+                :<Typography variant="h4" color="primary" sx={{ fontWeight: 700, color: primary || 'primary.main'}} onClick={() => setFocused('question')}>{questions[activeQuestion].question}</Typography>
               }
             </Box>
-            {focused === 'subHeading' ?
+            {focused === 'subText' ?
 
-              <TextField variant="standard" sx={copyStyle({ fontSize: 25, color: primary || 'primary.main'})} autoFocus={true} value={subHeading} onChange={(e) => setSubHeading(e.target.value)} onBlur={() => updateQuestion(subHeading)} />
-              :<Typography variant="h5" onClick={() => setFocused('subHeading')} sx={classes.subHeading}>{questions[activeQuestion].subHeading || "Put Sub Heading here..."}</Typography>
+              <TextField variant="standard" sx={copyStyle({ fontSize: 25, color: primary || 'primary.main'})} autoFocus={true} value={subText} onChange={(e) => setSubText(e.target.value)} onBlur={() => updateQuestion(subText)} />
+              :<Typography variant="h5" onClick={() => setFocused('subText')} sx={classes.subText}>{questions[activeQuestion].subText || "Put Sub Heading here..."}</Typography>
             }
             {focused === 'description' ?
               <TextField variant="standard" sx={copyStyle({ fontSize: 14, color: primary || 'primary.main'})} autoFocus={true} value={description} onChange={(e) => setDescription(e.target.value)} onBlur={() => updateQuestion(description)} multiline={true}/>
@@ -261,6 +273,12 @@ export default function Form({ form }) {
                 <Typography sx={idx == activeQuestion? {color: primary || 'primary.main' }: {color: 'white'}} variant="h3">{question.id}</Typography>
               </Box>
             ))}
+            <Box
+              key={question.id}
+              onClick={() => {}}
+              sx={classes.questionPreview}>
+              <Typography sx={{color: 'white'}} variant="h3"><AddIcon /></Typography>
+            </Box>
           </Box>
         </Box>
       </Grid>

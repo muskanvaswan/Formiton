@@ -1,6 +1,6 @@
-import prisma from 'lib/prisma'
-
-
+//import prisma from '../../lib/prisma'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 // DELETE /api/post/:id
 export default async function handle(req, res) {
   if (req.method === 'GET') {

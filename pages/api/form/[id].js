@@ -1,5 +1,6 @@
-import prisma from 'lib/prisma'
-
+//import prisma from '../../../lib/prisma'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 // DELETE /api/post/:id
 export default async function handle(req, res) {
   const formId = req.query.id;
@@ -7,7 +8,11 @@ export default async function handle(req, res) {
     const form = await prisma.form.findUnique({
       where: { id: Number(formId) },
       include: {
-        questions: true,
+        questions: {
+          include: {
+            options: true
+          }
+        },
         theme: true
       },
     });
