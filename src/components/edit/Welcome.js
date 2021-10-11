@@ -24,38 +24,15 @@ export default function Welcome({ start, data, theme }) {
       color: theme.primary || 'primary'
     },
   };
-  const [submitted, setSubmitted] = useState(true);
 
-  useEffect(() => {
-    if (typeof window !== undefined) {
-      if (window.localStorage.getItem("submitted") === "true") {
-        setSubmitted(false);
-        alert("You have already submitted the form once");
-      }
-    }
-  });
+  const handleClick = () => {};
 
-  const handleClick = () => {
-    start((ques) => ques + 1);
-  };
+  const handleDownload = () => {};
 
-  const handleDownload = () => {
-    var a = document.createElement("a");
-    a.href = "/brochure.pdf";
-    a.setAttribute("download", "CSI Brochure 2021 - 22");
-    a.click();
-  };
-  useEffect(() => {
-    const listener = (event) => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
-        handleClick();
-      }
-    };
-    document.addEventListener("keydown", listener);
-    return () => {
-      document.removeEventListener("keydown", listener);
-    };
-  }, []);
+  const [ title, setTitle ] = React.useState(data.title);
+  const [ description, setDescription ] = React.useState(data.description);
+  const [ startButton, setTitle ] = React.useState(data.startButton);
+
 
   return (
     <Box sx={classes.root}>
@@ -64,10 +41,10 @@ export default function Welcome({ start, data, theme }) {
         color="primary"
         sx={{ color: theme.primary || "primary.main" }}
       >
-        {data.title}
+        {title}
       </Typography>
       <Typography variant="body1" color="primary" sx={classes.description}>
-        {data.description}
+        {description}
       </Typography>
       <Box sx={{ display: "flex" }}>
         <Button
@@ -87,7 +64,7 @@ export default function Welcome({ start, data, theme }) {
           endIcon={<KeyboardReturnIcon />}
           disabled={!submitted}
         >
-          Start Your Application
+          {startButton}
         </Button>
       </Box>
     </Box>
