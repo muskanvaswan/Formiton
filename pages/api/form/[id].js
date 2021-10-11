@@ -29,6 +29,33 @@ export default async function handle(req, res) {
       const data = req.body;
       console.log(data)
       const form = data.form
+
+      for(let question of form.questions) {
+        console.log(question)
+
+        await prisma.question.upsert({
+          where: {
+            id: Number(formId)
+          },
+          update: {
+            question: question.question,
+            subText: question.subText,
+            description: question.description
+          },
+          create: {
+              form: {connect: {id: Number(formId)}},
+              question: "here",
+              subText: question.subText,
+              description: question.description,
+              placeholder: question.placeholder,
+              required: question.required,
+              buttonText: question.buttonText,
+              type: question.type,
+          }
+        });
+
+      }
+      console.log("here")
       await prisma.form.update({
         where: { id: Number(formId) },
         data: {
@@ -49,6 +76,7 @@ export default async function handle(req, res) {
             }
           },
       }});
+      console.log("here")
       res.json(formId)
 
   } else {
