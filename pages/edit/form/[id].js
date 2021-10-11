@@ -57,7 +57,7 @@ export default function Form(props) {
   const [ focused, setFocused ] = React.useState('false');
 
   const [ inp, setInp ] = React.useState();
-
+  const [ deleted, setDeleted ] = React.useState([]);
   const [ question, setQuestion ] = React.useState(questions[activeQuestion].question);
   const [ subText, setSubText ] = React.useState(questions[activeQuestion].subText);
   const [ description, setDescription ] = React.useState(questions[activeQuestion].description);
@@ -224,6 +224,29 @@ export default function Form(props) {
     })
   }
 
+  const deleteQuestion = () => {
+    if (question[activeQuestion].id) {
+      setDeleted(dele => [...dele, {id: question[activeQuestion].id}])
+    }
+
+    setQuestions(list => list.filter((el, index) => index !== (activeQuestion)))
+    setActiveQuestion(active => (active > 0? active - 1: active))
+  }
+
+  const addQuestion = () => {
+    const defaultQuestion = {
+      id: -1,
+      type: "text",
+      question: "Put your main question here",
+      subText: "Add some sub text",
+      description: "Give some background",
+      required: true,
+      options: [],
+    }
+    setQuestions(questions => [...questions, defaultQuestion])
+    setActiveQuestion(questions.length)
+  }
+
   const save = async () => {
     const data = {
       form: {
@@ -291,15 +314,14 @@ export default function Form(props) {
           <Box sx={classes.questions}>
             {questions.map((question, idx) => (
               <Box
-                key={question.id}
+                key={idx}
                 onClick={() => setActiveQuestion(idx)}
                 sx={idx == activeQuestion? classes.activeQuestionPreview: classes.questionPreview}>
-                <Typography sx={idx == activeQuestion? {color: primary || 'primary.main' }: {color: 'white'}} variant="h3">{question.id}</Typography>
+                <Typography sx={idx == activeQuestion? {color: primary || 'primary.main' }: {color: 'white'}} variant="h3">{idx + 1}</Typography>
               </Box>
             ))}
             <Box
-              key={question.id}
-              onClick={() => {}}
+              onClick={addQuestion}
               sx={classes.questionPreview}>
               <Typography sx={{color: 'white'}} variant="h3"><AddIcon /></Typography>
             </Box>
@@ -376,6 +398,9 @@ export default function Form(props) {
             checked={required}
             onChange={handleCheck}
           />
+        </Box>
+        <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
+          <Button variant="contained" color="error" disabled={questions.length === 1} onClick={deleteQuestion} fullWidth>Delete Question</Button>
         </Box>
         <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
           <Button variant="contained" onClick={save} fullWidth>Save</Button>
