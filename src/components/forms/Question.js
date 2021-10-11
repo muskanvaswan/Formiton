@@ -101,9 +101,9 @@ export default function Form(props) {
     <div className={classes.root} sx={mobile? {} : {height: '95vh'}}>
       <div className={classes.question}>
         <ArrowForwardIcon color="primary" className={classes.icon}/>
-        <Typography variant="h4" color="primary" sx={{ fontWeight: 700}}>{props.question.heading}</Typography>
+        <Typography variant="h4" color="primary" sx={{ fontWeight: 700}}>{props.question.question}</Typography>
       </div>
-      <Typography variant="h5" color="primary" sx={{ opacity: 0.7}} className={classes.subHeading}>{props.question.subHeading}</Typography>
+      <Typography variant="h5" color="primary" sx={{ opacity: 0.7}} className={classes.subHeading}>{props.question.subText}</Typography>
       <Typography variant="body1" component='div' color="primary" sx={{ opacity: 0.6 }} dangerouslySetInnerHTML={{__html: props.question.description}} className={classes.description}>
       </Typography>
       <Input
