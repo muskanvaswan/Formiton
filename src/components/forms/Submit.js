@@ -133,7 +133,7 @@ export default function ThankYouScreen({ responses, updateQuestion, fields, data
         <Alert
           onClose={() => router.push(data.redirect)}
           severity="success"
-          sx={{ width: "100%", bgcolor: "rgb(76, 226, 149)" }}
+          sx={{ width: "100%", bgcolor: "rgb(76, 226, 149)", color: theme.text || 'black'}}
         >
           Your response was successfully recorded! You will be redirected to
           CSI's main page now.

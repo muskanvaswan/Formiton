@@ -82,7 +82,7 @@ export default function Welcome({ start, data, theme }) {
         <Button
           variant="contained"
           component="a"
-          sx={{ fontWeight: 700, width: 300, mt: 2, color: theme.primary || "primary.main" }}
+          sx={{ fontWeight: 700, width: 300, mt: 2, bgcolor: theme.secondary || "primary.main", color: theme.text || 'black' }}
           onClick={handleClick}
           endIcon={<KeyboardReturnIcon />}
           disabled={!submitted}
