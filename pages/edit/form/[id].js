@@ -5,6 +5,8 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import AddIcon from '@mui/icons-material/Add'
+import CloseIcon from '@mui/icons-material/Close'
+import SettingsIcon from '@mui/icons-material/Settings';
 import Input from '../../../src/components/forms/Input'
 import Navigators from '../../../src/components/forms/Navigators'
 
@@ -134,7 +136,10 @@ export default function Form(props) {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      '&:hover': {
+        bgcolor: 'rgba(164, 164, 164, 0.67)'
+      }
     },
     activeQuestionPreview: {
       minWidth: '200px',
@@ -150,7 +155,8 @@ export default function Form(props) {
       alignItems: 'center',
       borderColor: primary || 'primary.main',
       borderWidth: 2,
-      borderStyle: 'solid'
+      borderStyle: 'solid',
+      position: 'relative'
     },
     design: {
       height: '100%',
@@ -223,7 +229,7 @@ export default function Form(props) {
     if (questions[activeQuestion].id) {
       setDeleted(dele => [...dele, {id: questions[activeQuestion].id}])
     }
-    console.log(questions[activeQuestion].id)
+
     setQuestions(list => list.filter((el, index) => index !== (activeQuestion)))
     setActiveQuestion(active => (active > 0? active - 1: active))
   }
@@ -266,6 +272,19 @@ export default function Form(props) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
+      });
+      console.log(rawResponse)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const publish = async () => {
+    try {
+      const rawResponse = await fetch(`http://localhost:3000/api/form/publish/${form.id}`, {
+        method: 'UPDATE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
       });
       console.log(rawResponse)
     } catch (error) {
@@ -320,7 +339,10 @@ export default function Form(props) {
                   key={idx}
                   onClick={() => setActiveQuestion(idx)}
                   sx={idx == activeQuestion? classes.activeQuestionPreview: classes.questionPreview}>
-                  <Typography sx={idx == activeQuestion? {color: primary || 'primary.main' }: {color: 'white'}} variant="h3">{idx + 1}</Typography>
+                  {idx === activeQuestion && <IconButton sx={{position: 'absolute', p: '2.5px', right: 10, top: 10, bgcolor: 'rgba(145, 145, 145, 0.34)'}} onClick={deleteQuestion}><CloseIcon sx={{color: 'white', fontSize: 15}}/></IconButton>}
+                  <Typography
+                    sx={idx == activeQuestion? {color: primary || 'primary.main', width: '75%', textAlign:'center'}: {color: 'white',  width: '75%', textAlign:'center'}}
+                    variant="body1">{idx + 1} - {questions[idx].question}</Typography>
                 </Box>
               ))}
               <Box
@@ -332,9 +354,7 @@ export default function Form(props) {
           </Box>
         </Grid>
         <Grid item lg={2} md={2} sm={12} xs={12} sx={classes.design}>
-          <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
-            <Button variant="contained" onClick={() => setOpenSettings(sett => !sett)} fullWidth>Open Settings</Button>
-          </Box>
+
           <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
             <ColorPicker value={bgcolor} setValue={setBgcolor} />
             <Typography variant="caption" sx={{mx: 1}}>Background</Typography>
@@ -351,6 +371,10 @@ export default function Form(props) {
             <ColorPicker value={secondary} setValue={setSecondary} />
             <Typography variant="caption" sx={{mx: 1}}>Secondary</Typography>
             {/*<TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>*/}
+          </Box>
+
+          <Box sx={{px: 0, py: 1, display: 'flex', alignItems: 'center'}}>
+            <Button variant="text" color="inherit" onClick={() => setOpenSettings(sett => !sett)} fullWidth endIcon={<SettingsIcon />}>More Settings</Button>
           </Box>
           <Box sx={{px: 1, py: 2, mt: 5}}>
             <Typography variant="caption" color={focused == 'type'? "primary": ""}>Type</Typography>
@@ -405,11 +429,14 @@ export default function Form(props) {
               onChange={handleCheck}
             />
           </Box>
-          <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
-            <Button variant="contained" color="error" disabled={questions.length === 1} onClick={deleteQuestion} fullWidth>Delete Question</Button>
-          </Box>
-          <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
-            <Button variant="contained" onClick={save} fullWidth>Save</Button>
+
+          <Box sx={{px: 0, py: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection:'column', height: '100%'}}>
+            <Box sx={{my: 1, borderRadius: '10px', bgcolor: 'rgba(200, 200, 199, 0.4)', width: '100%', p: 1}}>
+              <Typography variant="caption" color="primary" sx={{textAlign: 'center'}}>Preview form at: </Typography>
+              <Typography variant="caption" sx={{textAlign: 'center'}}>http://localhost/forms/{form.id}</Typography>
+            </Box>
+            <Button variant="outlined" onClick={save} fullWidth>Save</Button>
+            <Button variant="contained" sx={{mt: 1}} onClick={publish} fullWidth>Publish</Button>
           </Box>
 
         </Grid>
