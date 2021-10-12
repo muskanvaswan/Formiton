@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Switch from '@mui/material/Switch'
 import ColorPicker from '../../../src/components/edit/ColorPicker'
 import OptionsEdit from '../../../src/components/edit/Options'
+import Settings from '../../../src/components/edit/Settings'
 
 import { useTheme } from '@mui/material/styles'
 
@@ -59,6 +60,10 @@ export default function Form(props) {
   const [ primary, setPrimary ] = React.useState(form.theme.primary || theme.palette.primary.main)
   const [ secondary, setSecondary ] = React.useState(form.theme.secondary || theme.palette.secondary.main)
 
+  const [ openSettings, setOpenSettings ] = React.useState(false)
+  const [ settings, setSettings ] = React.useState({title: form.title, description: form.description, startText: form.startText, redirect: form.redirect, conclusion: form.conclusion})
+
+
   const copyStyle = (obj) => {
     return {
       position: 'relative',
@@ -84,7 +89,8 @@ export default function Form(props) {
       p: 5,
       pb: 0,
       pr: {lg: 0, md: 0, sm: 5, xs: 5},
-
+      position: 'relative',
+      zIndex: 0
     },
     preview: {
       height: '100%',
@@ -245,7 +251,12 @@ export default function Form(props) {
           primary: primary,
           secondary: secondary,
           bgcolor: bgcolor
-        }
+        },
+        title: settings.title,
+        description: settings.description,
+        startText: settings.startText,
+        redirect: settings.redirect,
+        conclusion: settings.conclusion
       }
     }
     try {
@@ -263,140 +274,147 @@ export default function Form(props) {
   }
 
   return (
-    <Grid container spacing={2} sx={classes.root}>
-      <Grid item lg={10} md={10} sm={12} xs={12} sx={classes.preview}>
-        <Box sx={{height: '100%', width: '100%', p:0}}>
-          <Box sx={classes.question}>
-            <Box sx={classes.q}>
-              <ArrowForwardIcon color="primary" sx={classes.icon}/>
-              {focused === 'question' ?
-                <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 36, color: primary || 'primary.main'})} autoFocus={true} value={question} onChange={(e) => setQuestion(e.target.value)} onBlur={() => updateQuestion(question)} />
-                :<Typography variant="h4" color="primary" sx={{ fontWeight: 700, color: primary || 'primary.main'}} onClick={() => setFocused('question')}>{questions[activeQuestion].question}</Typography>
-              }
-            </Box>
-            {focused === 'subText' ?
-
-              <TextField variant="standard" sx={copyStyle({ fontSize: 25, color: primary || 'primary.main'})} autoFocus={true} value={subText} onChange={(e) => setSubText(e.target.value)} onBlur={() => updateQuestion(subText)} />
-              :<Typography variant="h5" onClick={() => setFocused('subText')} sx={classes.subText}>{questions[activeQuestion].subText || "Put Sub Heading here..."}</Typography>
-            }
-            {focused === 'description' ?
-              <TextField variant="standard" sx={copyStyle({ fontSize: 14, color: primary || 'primary.main'})} autoFocus={true} value={description} onChange={(e) => setDescription(e.target.value)} onBlur={() => updateQuestion(description)} multiline={true}/>
-              :<Typography variant="body1" component='div' color="primary" sx={{ opacity: 0.6 , color: primary || 'primary.main'}} onClick={() => setFocused('description')} dangerouslySetInnerHTML={{__html: questions[activeQuestion].description}} className={classes.description} />
-            }
-
-            <Input
-              question={questions[activeQuestion]}
-              theme={{bgcolor: bgcolor, primary: primary, secondary: secondary}}
-              value={undefined}
-              multiline={questions[activeQuestion].multiline}
-              valueChange={setInp}
-              validate={() => true}
-            />
-            <Navigators
-              previous={() => {}}
-              next={() => {}}
-              save={() => {}}
-              buttonText={questions[activeQuestion].buttonText}
-              multiline={questions[activeQuestion].multiline}
-              theme={{primary: primary, secondary: secondary, bgcolor: bgcolor}}
-            />
-          </Box>
-          <Box sx={classes.questions}>
-            {questions.map((question, idx) => (
-              <Box
-                key={idx}
-                onClick={() => setActiveQuestion(idx)}
-                sx={idx == activeQuestion? classes.activeQuestionPreview: classes.questionPreview}>
-                <Typography sx={idx == activeQuestion? {color: primary || 'primary.main' }: {color: 'white'}} variant="h3">{idx + 1}</Typography>
+    <>
+    {openSettings && <Settings update={setSettings} data={settings} close={setOpenSettings}/>}
+      <Grid container spacing={2} sx={classes.root}>
+        <Grid item lg={10} md={10} sm={12} xs={12} sx={classes.preview}>
+          <Box sx={{height: '100%', width: '100%', p:0}}>
+            <Box sx={classes.question}>
+              <Box sx={classes.q}>
+                <ArrowForwardIcon color="primary" sx={classes.icon}/>
+                {focused === 'question' ?
+                  <TextField variant="standard" sx={copyStyle({ fontWeight: 700, fontSize: 36, color: primary || 'primary.main'})} autoFocus={true} value={question} onChange={(e) => setQuestion(e.target.value)} onBlur={() => updateQuestion(question)} />
+                  :<Typography variant="h4" color="primary" sx={{ fontWeight: 700, color: primary || 'primary.main'}} onClick={() => setFocused('question')}>{questions[activeQuestion].question}</Typography>
+                }
               </Box>
-            ))}
-            <Box
-              onClick={addQuestion}
-              sx={classes.questionPreview}>
-              <Typography sx={{color: 'white'}} variant="h3"><AddIcon /></Typography>
+              {focused === 'subText' ?
+
+                <TextField variant="standard" sx={copyStyle({ fontSize: 25, color: primary || 'primary.main'})} autoFocus={true} value={subText} onChange={(e) => setSubText(e.target.value)} onBlur={() => updateQuestion(subText)} />
+                :<Typography variant="h5" onClick={() => setFocused('subText')} sx={classes.subText}>{questions[activeQuestion].subText || "Put Sub Heading here..."}</Typography>
+              }
+              {focused === 'description' ?
+                <TextField variant="standard" sx={copyStyle({ fontSize: 14, color: primary || 'primary.main'})} autoFocus={true} value={description} onChange={(e) => setDescription(e.target.value)} onBlur={() => updateQuestion(description)} multiline={true}/>
+                :<Typography variant="body1" component='div' color="primary" sx={{ opacity: 0.6 , color: primary || 'primary.main'}} onClick={() => setFocused('description')} dangerouslySetInnerHTML={{__html: questions[activeQuestion].description}} className={classes.description} />
+              }
+
+              <Input
+                question={questions[activeQuestion]}
+                theme={{bgcolor: bgcolor, primary: primary, secondary: secondary}}
+                value={undefined}
+                multiline={questions[activeQuestion].multiline}
+                valueChange={setInp}
+                validate={() => true}
+              />
+              <Navigators
+                previous={() => {}}
+                next={() => {}}
+                save={() => {}}
+                buttonText={questions[activeQuestion].buttonText}
+                multiline={questions[activeQuestion].multiline}
+                theme={{primary: primary, secondary: secondary, bgcolor: bgcolor}}
+              />
+            </Box>
+            <Box sx={classes.questions}>
+              {questions.map((question, idx) => (
+                <Box
+                  key={idx}
+                  onClick={() => setActiveQuestion(idx)}
+                  sx={idx == activeQuestion? classes.activeQuestionPreview: classes.questionPreview}>
+                  <Typography sx={idx == activeQuestion? {color: primary || 'primary.main' }: {color: 'white'}} variant="h3">{idx + 1}</Typography>
+                </Box>
+              ))}
+              <Box
+                onClick={addQuestion}
+                sx={classes.questionPreview}>
+                <Typography sx={{color: 'white'}} variant="h3"><AddIcon /></Typography>
+              </Box>
             </Box>
           </Box>
-        </Box>
+        </Grid>
+        <Grid item lg={2} md={2} sm={12} xs={12} sx={classes.design}>
+          <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
+            <Button variant="contained" onClick={() => setOpenSettings(sett => !sett)} fullWidth>Open Settings</Button>
+          </Box>
+          <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
+            <ColorPicker value={bgcolor} setValue={setBgcolor} />
+            <Typography variant="caption" sx={{mx: 1}}>Background</Typography>
+            {/*<TextField variant="standard" value={bgcolor} onChange={(e) => setBgcolor(e.target.value)}/>*/}
+          </Box>
+
+          <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
+            <ColorPicker value={primary} setValue={setPrimary} />
+            <Typography variant="caption" sx={{mx: 1}}>Primary</Typography>
+            {/*<TextField variant="standard" value={primary} onChange={(e) => setPrimary(e.target.value)}/>*/}
+          </Box>
+
+          <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
+            <ColorPicker value={secondary} setValue={setSecondary} />
+            <Typography variant="caption" sx={{mx: 1}}>Secondary</Typography>
+            {/*<TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>*/}
+          </Box>
+          <Box sx={{px: 1, py: 2, mt: 5}}>
+            <Typography variant="caption" color={focused == 'type'? "primary": ""}>Type</Typography>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={type}
+              type="select"
+              variant="standard"
+              sx={{width: '100%', '& svg' : {
+                color: theme.primary || 'primary.main'
+              },}}
+              label="Type"
+              onChange={(e) => setType(e.target.value)}
+              onFocus={() => setFocused('type')}
+              onBlur={() => updateQuestion(type)}
+            >
+              <MenuItem value={"text"} default={type == 'text'}>Text</MenuItem>
+              <MenuItem value={"select"}>Select</MenuItem>
+              <MenuItem value={"email"} default={type == 'email'}>E-mail</MenuItem>
+              <MenuItem value={"url"}>URL</MenuItem>
+              <MenuItem value={"number"}>Number</MenuItem>
+              <MenuItem value={"tel"}>Phone Number</MenuItem>
+              <MenuItem value={"file"}>File</MenuItem>
+            </Select>
+          </Box>
+          {type === 'select' && <OptionsEdit options={questions[activeQuestion].options} update={setQuestions} active={activeQuestion}/>}
+          <Box sx={{px: 1, py: 2}}>
+            <Typography variant="caption" color={focused ==='placeholder' && "primary"}>Placeholder</Typography>
+            <TextField
+              variant="standard"
+              onFocus={() => setFocused('placeholder')}
+              value={placeholder}
+              onChange={(e) => setPlaceholder(e.target.value)}
+              onBlur={() => updateQuestion(placeholder)}
+            />
+          </Box>
+          <Box sx={{px: 1, py: 2, display: 'flex', alignItems: 'center'}}>
+            <TextField
+              variant="standard"
+              label="Button Text"
+              onFocus={() => setFocused('buttonText')}
+              value={buttonText}
+              onChange={(e) => setButtonText(e.target.value)}
+              onBlur={() => updateQuestion(buttonText)}/>
+          </Box>
+          <Box sx={{px: 1, py: 2, display: 'flex', alignItems: 'center'}}>
+            <Typography variant="body1" sx={{}}>Required</Typography>
+            <Switch
+              variant="standard"
+              checked={required}
+              onChange={handleCheck}
+            />
+          </Box>
+          <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
+            <Button variant="contained" color="error" disabled={questions.length === 1} onClick={deleteQuestion} fullWidth>Delete Question</Button>
+          </Box>
+          <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
+            <Button variant="contained" onClick={save} fullWidth>Save</Button>
+          </Box>
+
+        </Grid>
       </Grid>
-      <Grid item lg={2} md={2} sm={12} xs={12} sx={classes.design}>
-        <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
-          <ColorPicker value={bgcolor} setValue={setBgcolor} />
-          <Typography variant="caption" sx={{mx: 1}}>Background</Typography>
-          {/*<TextField variant="standard" value={bgcolor} onChange={(e) => setBgcolor(e.target.value)}/>*/}
-        </Box>
 
-        <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
-          <ColorPicker value={primary} setValue={setPrimary} />
-          <Typography variant="caption" sx={{mx: 1}}>Primary</Typography>
-          {/*<TextField variant="standard" value={primary} onChange={(e) => setPrimary(e.target.value)}/>*/}
-        </Box>
-
-        <Box sx={{px: 1, display: 'flex', alignItems: 'center'}}>
-          <ColorPicker value={secondary} setValue={setSecondary} />
-          <Typography variant="caption" sx={{mx: 1}}>Secondary</Typography>
-          {/*<TextField variant="standard" value={secondary} onChange={(e) => setSecondary(e.target.value)}/>*/}
-        </Box>
-        <Box sx={{px: 1, py: 2, mt: 5}}>
-          <Typography variant="caption" color={focused == 'type'? "primary": ""}>Type</Typography>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={type}
-            type="select"
-            variant="standard"
-            sx={{width: '100%', '& svg' : {
-              color: theme.primary || 'primary.main'
-            },}}
-            label="Type"
-            onChange={(e) => setType(e.target.value)}
-            onFocus={() => setFocused('type')}
-            onBlur={() => updateQuestion(type)}
-          >
-            <MenuItem value={"text"} default={type == 'text'}>Text</MenuItem>
-            <MenuItem value={"select"}>Select</MenuItem>
-            <MenuItem value={"email"} default={type == 'email'}>E-mail</MenuItem>
-            <MenuItem value={"url"}>URL</MenuItem>
-            <MenuItem value={"number"}>Number</MenuItem>
-            <MenuItem value={"tel"}>Phone Number</MenuItem>
-            <MenuItem value={"file"}>File</MenuItem>
-          </Select>
-        </Box>
-        {type === 'select' && <OptionsEdit options={questions[activeQuestion].options} update={setQuestions} active={activeQuestion}/>}
-        <Box sx={{px: 1, py: 2}}>
-          <Typography variant="caption" color={focused ==='placeholder' && "primary"}>Placeholder</Typography>
-          <TextField
-            variant="standard"
-            onFocus={() => setFocused('placeholder')}
-            value={placeholder}
-            onChange={(e) => setPlaceholder(e.target.value)}
-            onBlur={() => updateQuestion(placeholder)}
-          />
-        </Box>
-        <Box sx={{px: 1, py: 2, display: 'flex', alignItems: 'center'}}>
-          <TextField
-            variant="standard"
-            label="Button Text"
-            onFocus={() => setFocused('buttonText')}
-            value={buttonText}
-            onChange={(e) => setButtonText(e.target.value)}
-            onBlur={() => updateQuestion(buttonText)}/>
-        </Box>
-        <Box sx={{px: 1, py: 2, display: 'flex', alignItems: 'center'}}>
-          <Typography variant="body1" sx={{}}>Required</Typography>
-          <Switch
-            variant="standard"
-            checked={required}
-            onChange={handleCheck}
-          />
-        </Box>
-        <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
-          <Button variant="contained" color="error" disabled={questions.length === 1} onClick={deleteQuestion} fullWidth>Delete Question</Button>
-        </Box>
-        <Box sx={{px: 0, py: 2, display: 'flex', alignItems: 'center'}}>
-          <Button variant="contained" onClick={save} fullWidth>Save</Button>
-        </Box>
-
-      </Grid>
-    </Grid>
+    </>
   )
 }

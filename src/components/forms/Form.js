@@ -18,7 +18,7 @@ export default function Form({ questions, theme, welcome, submit }) {
     <Box sx={{width: '100%'}}>
       <LinearProgress variant="determinate" value={(ques / (limit + 1) ) * 100} sx={{height: '10px'}}/>
       <Container maxWidth="md" sx={{overflowY: {lg: 'hidden', sm: 'scroll'}}}>
-        {ques == 0 && <Welcome start={updateQuestion} data={welcome} />}
+        {ques == 0 && <Welcome start={updateQuestion} theme={theme} data={welcome} />}
         {ques > 0 && ques <= limit ?
           (<Question
             key={ques}

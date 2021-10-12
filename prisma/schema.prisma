@@ -8,12 +8,17 @@ datasource db {
 }
 
 model Form {
-  id         Int        @id @default(autoincrement())
-  questions  Question[]
-  theme      Theme?
-  password   String?
-  owner      String?
-  ownerEmail String?
+  id          Int        @id @default(autoincrement())
+  title       String?
+  description String?
+  redirect    String?
+  conclusion  String?
+  startText   String?
+  questions   Question[]
+  theme       Theme?
+  password    String?
+  owner       String?
+  ownerEmail  String?
 }
 
 model Question {

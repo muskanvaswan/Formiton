@@ -70,7 +70,7 @@ export default function Welcome({ start, data, theme }) {
         {data.description}
       </Typography>
       <Box sx={{ display: "flex" }}>
-        <Button
+        {/*<Button
           variant="outlined"
           sx={classes.button}
           sx={{ fontWeight: 700, width: 200, mt: 2, mr: 2 }}
@@ -78,7 +78,7 @@ export default function Welcome({ start, data, theme }) {
           onClick={handleDownload}
         >
           Download Brochure
-        </Button>
+        </Button>*/}
         <Button
           variant="contained"
           component="a"
@@ -87,7 +87,7 @@ export default function Welcome({ start, data, theme }) {
           endIcon={<KeyboardReturnIcon />}
           disabled={!submitted}
         >
-          Start Your Application
+          {data.startText || "Start Your Application"}
         </Button>
       </Box>
     </Box>

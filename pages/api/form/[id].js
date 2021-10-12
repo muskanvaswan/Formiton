@@ -79,6 +79,11 @@ export default async function handle(req, res) {
       await prisma.form.update({
         where: { id: Number(formId) },
         data: {
+          title: form.title,
+          description: form.description,
+          startButton: form.startButton,
+          redirect: form.redirect,
+          conclusion: form.conclusion,
           theme: {
             upsert: {
               create: {
