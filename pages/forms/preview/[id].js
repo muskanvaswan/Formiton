@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box'
 
-import Form from '../../src/components/forms/Form'
-import getQuestions from '../../sample-questions'
+import Form from '../../../src/components/forms/Form'
+import getQuestions from '../../../sample-questions'
 
 export const getServerSideProps = async (query) => {
   const { id } = query.query;

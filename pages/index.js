@@ -9,9 +9,12 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Collapse from '@mui/material/Collapse';
 import Create from '../src/components/index/Create'
 
+import { useRouter } from "next/router";
 
 const classes = {
   root: {
@@ -39,6 +42,14 @@ export default function Index() {
     setForms(data)
     setFound(true)
   }
+
+  const redirect = (url) => {
+    if (window) {
+      window.open(url, '_blank')
+    }
+  }
+
+  const router = useRouter();
 
   return (
     <Box sx={classes.root}>
@@ -74,7 +85,8 @@ export default function Index() {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Learn More</Button>
+                <IconButton size="small" onClick={() => redirect(`/edit/form/${form.id}`)}><EditIcon sx={{fontSize: 20}}/></IconButton>
+                <IconButton size="small" onClick={() => redirect(`/forms/preview/${form.id}`)}><VisibilityIcon sx={{fontSize: 20}}/></IconButton>
               </CardActions>
             </Card>
           ))}
