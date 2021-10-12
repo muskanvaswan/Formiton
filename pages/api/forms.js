@@ -12,7 +12,27 @@ export default async function handle(req, res) {
       },
     });
     res.json(forms);
-  } else {
+  } else if (req.method === 'POST') {
+    const data = req.body.form;
+
+    const form = await prisma.form.create({
+      data: {
+        title: data.title,
+        description: data.description,
+        owner: data.owner,
+        ownerEmail: data.ownerEmail,
+        password: data.password,
+        questions: {
+          create: data.questions
+        },
+        theme: {
+          create: data.theme
+        }
+      }
+    });
+    res.json(form);
+  }
+  else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`,
     );
