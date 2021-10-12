@@ -433,7 +433,7 @@ export default function Form(props) {
           <Box sx={{px: 0, py: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection:'column', height: '100%'}}>
             <Box sx={{my: 1, borderRadius: '10px', bgcolor: 'rgba(200, 200, 199, 0.4)', width: '100%', p: 1}}>
               <Typography variant="caption" color="primary" sx={{textAlign: 'center'}}>Preview form at: </Typography>
-              <Typography variant="caption" sx={{textAlign: 'center'}}>http://localhost/forms/{form.id}</Typography>
+              <Typography variant="caption" sx={{textAlign: 'center'}}>http://localhost/forms/preview/{form.id}</Typography>
             </Box>
             <Button variant="outlined" onClick={save} fullWidth>Save</Button>
             <Button variant="contained" sx={{mt: 1}} onClick={publish} fullWidth>Publish</Button>

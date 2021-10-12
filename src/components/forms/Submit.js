@@ -52,7 +52,7 @@ const submitResponse = async (data) => {
   return status;
 };
 
-export default function ThankYouScreen({ responses, updateQuestion, fields }) {
+export default function ThankYouScreen({ responses, updateQuestion, fields, data, theme }) {
   const classes = useStyles();
   const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
@@ -100,9 +100,8 @@ export default function ThankYouScreen({ responses, updateQuestion, fields }) {
   };
   return (
     <div className={classes.root}>
-      <Typography variant="h4" sx={{ color: "primary.main" }}>
-        Please make sure that you have cross checked all your answers as you
-        will not be able to edit your response.
+      <Typography variant="h4" sx={{ color: theme.primary || "primary.main" }}>
+        {data.conclusion}
       </Typography>
       <div className={classes.buttons}>
         <div className={classes.pagination}>
@@ -110,17 +109,18 @@ export default function ThankYouScreen({ responses, updateQuestion, fields }) {
             variant="contained"
             onClick={previous}
             className={classes.pageIcon}
-            sx={{ backgroundColor: "secondary.main" }}
+            sx={{bgcolor: theme.secondary || 'secondary'}}
           >
             <ArrowBackIcon color="inherit" />
           </IconButton>
         </div>
         <Button
-          color="secondary"
+          color="primary"
           variant="contained"
+          sx={{bgcolor: theme.secondary || 'secondary'}}
           className={classes.button}
           onClick={handleClick}
-          disabled={loading}
+          disabled={loading || !data.published}
         >
           Submit
         </Button>
@@ -128,10 +128,10 @@ export default function ThankYouScreen({ responses, updateQuestion, fields }) {
       <Snackbar
         open={submitted}
         autoHideDuration={3000}
-        onClose={() => router.push("https://csi-bu.tech/")}
+        onClose={() => router.push(data.redirect)}
       >
         <Alert
-          onClose={() => router.push("https://csi-bu.tech/")}
+          onClose={() => router.push(data.redirect)}
           severity="success"
           sx={{ width: "100%", bgcolor: "rgb(76, 226, 149)" }}
         >

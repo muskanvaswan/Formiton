@@ -22,7 +22,7 @@ export const getServerSideProps = async (query) => {
     },
     conclusion: data.conclusion,
     redirect: data.redirect,
-    published: data.published,
+    published: false,
 
   }
 

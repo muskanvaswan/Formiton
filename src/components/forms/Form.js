@@ -33,7 +33,9 @@ export default function Form({ questions, theme, welcome, submit }) {
             (<Submit
               responses={responses}
               updateQuestion={updateQuestion}
+              data={submit}
               fields={limit}
+              theme={theme}
             />
           ))}
       </Container>

@@ -29,7 +29,7 @@ const classes = {
 export default function Settings({data, update, close}) {
   const [ title, setTitle ] = React.useState(data.title)
   const [ description, setDescription ] = React.useState(data.description)
-  const [ startButton, setStartButton ] = React.useState(data.startButton)
+  const [ startText, setStartText ] = React.useState(data.startText)
   const [ conclusion, setConclusion ] = React.useState(data.conclusion)
   const [ redirect, setRedirect ] = React.useState(data.redirect)
 
@@ -72,8 +72,8 @@ export default function Settings({data, update, close}) {
         />
         <TextField
           sx={{my: 1, width: '49%', mr: 1}}
-          value={startButton}
-          onChange={(e) => setStartButton(e.target.value)}
+          value={startText}
+          onChange={(e) => setStartText(e.target.value)}
           label="Test that will appear on the start button"
           variant="filled"
         />
