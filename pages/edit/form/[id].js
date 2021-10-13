@@ -21,12 +21,17 @@ import OptionsEdit from '../../../src/components/edit/Options'
 import Settings from '../../../src/components/edit/Settings'
 import Verify from '../../../src/components/edit/Verify'
 
+import parseCookies from "../../../src/helpers/cookies"
+
 import { useTheme } from '@mui/material/styles'
 
 import getQuestions from '../../../sample-questions'
 
-export const getServerSideProps = async (query) => {
-  const { id } = query.query;
+export const getServerSideProps = async (props) => {
+  const { id } = props.query;
+
+  const validated = parseCookies(props.req)
+  console.log(validated)
 
   const res = await fetch(`http://localhost:3000/api/form/${id}`);
   const form = await res.json()
@@ -36,7 +41,7 @@ export const getServerSideProps = async (query) => {
       notFound: true,
     }
   }
-  return {props: {form: JSON.stringify(form)}}
+  return {props: {form: JSON.stringify(form), validated: validated.validated === 'true'}}
 }
 
 
@@ -44,7 +49,7 @@ export default function Form(props) {
 
   const form = JSON.parse(props.form)
   const theme = useTheme();
-  const [ verified, setVerify ] = React.useState(false);
+  const [ verified, setVerify ] = React.useState(props.validated);
   const [ questions, setQuestions ] = React.useState(form.questions);
   const [ activeQuestion, setActiveQuestion ] = React.useState(0);
   const [ focused, setFocused ] = React.useState('false');
@@ -445,7 +450,7 @@ export default function Form(props) {
           </Grid>
         </Grid>
       </>
-    : <Verify setVerify={setVerify} />
+    : <Verify setVerify={setVerify} correct={form.password} id={form.id}/>
     }
 
 

@@ -11,11 +11,15 @@
     "@mui/material": "next",
     "@mui/styles": "^5.0.0",
     "@prisma/client": "^3.2.1",
+    "bcryptjs": "^2.4.3",
     "clsx": "latest",
+    "cookie": "^0.4.1",
+    "fs": "^0.0.1-security",
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
     "react-color": "^2.19.3",
+    "react-cookie": "^4.1.1",
     "react-dom": "latest"
   },
   "scripts": {

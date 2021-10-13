@@ -4,8 +4,14 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useRouter } from "next/router";
+import bcrypt from 'bcryptjs';
 
 
+function hashIt(password){
+  const salt = bcrypt.genSaltSync(6);
+  const hashed = bcrypt.hashSync(password, salt);
+  return hashed
+}
 
 
 export default function CreateForm(props) {
@@ -17,14 +23,19 @@ export default function CreateForm(props) {
 
   const router = useRouter();
 
+  React.useEffect(()=> {
+    console.log(hashIt('hello'))
+  }, [])
+
   const create = async () => {
+
     const data = {
       form: {
         title: title,
         description: description,
         owner: owner,
         ownerEmail: ownerEmail,
-        password: password,
+        password: hashIt(password),
         questions: [{
           type: "text",
           question: "Put your main question here",
