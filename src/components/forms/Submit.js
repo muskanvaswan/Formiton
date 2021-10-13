@@ -42,17 +42,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const submitResponse = async (data, formId) => {
-  const status = await fetch(`http://localhost/api/form/respond/${formId}`, {
+  const status = await fetch(`http://localhost:3000/api/form/respond/${formId}/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: data,
   }).catch((rejected) => {
     alert("Could Not submit your response");
+    console.log(rejected)
   });
   return status;
 };
 
-export default function ThankYouScreen({ responses, updateQuestion, fields, data, theme }) {
+export default function ThankYouScreen({ responses, updateQuestion, fields, data, theme, formId }) {
   const classes = useStyles();
   const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
@@ -68,8 +69,8 @@ export default function ThankYouScreen({ responses, updateQuestion, fields, data
       const status = await submitResponse(JSON.stringify(responses), formId);
       if (status) {
         setSubmitted(true);
-        if (typeof window !== undefined)
-          window.localStorage.setItem("submitted", "true");
+        //if (typeof window !== undefined)
+          //window.localStorage.setItem("submitted", "true");
       } else {
         alert("Could Not submit your response");
       }
@@ -120,7 +121,7 @@ export default function ThankYouScreen({ responses, updateQuestion, fields, data
           sx={{bgcolor: theme.secondary || 'secondary'}}
           className={classes.button}
           onClick={handleClick}
-          disabled={loading || !data.published}
+          disabled={loading}
         >
           Submit
         </Button>
@@ -128,10 +129,10 @@ export default function ThankYouScreen({ responses, updateQuestion, fields, data
       <Snackbar
         open={submitted}
         autoHideDuration={3000}
-        onClose={() => router.push(data.redirect)}
+        onClose={() => router.push(data.redirect || '/')}
       >
         <Alert
-          onClose={() => router.push(data.redirect)}
+          onClose={() => router.push(data.redirect || '/')}
           severity="success"
           sx={{ width: "100%", bgcolor: "rgb(76, 226, 149)", color: theme.text || 'black'}}
         >

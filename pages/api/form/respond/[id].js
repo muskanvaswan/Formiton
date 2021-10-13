@@ -6,16 +6,16 @@ export default async function handle(req, res) {
   const formId = req.query.id;
   if (req.method === 'GET') {
     const responses = await prisma.response.findMany({
-      where: { formId: formId },
+      where: { formId: Number(formId) },
     });
     res.json(responses);
   } else if (req.method === 'POST') {
     const data = req.body;
-
+    console.log(data)
     const response = await prisma.response.create({
       data: {
-        form: {connect: {id: formId}},
-        responseObject:
+        form: {connect: {id: Number(formId)}},
+        responseObject: JSON.stringify(data)
       }
     });
     res.json(response);

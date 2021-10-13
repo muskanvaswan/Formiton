@@ -27,12 +27,7 @@ export default function Welcome({ start, data, theme }) {
   const [submitted, setSubmitted] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== undefined) {
-      if (window.localStorage.getItem("submitted") === "true") {
-        setSubmitted(false);
-        alert("You have already submitted the form once");
-      }
-    }
+    
   });
 
   const handleClick = () => {
