@@ -20,6 +20,7 @@ model Form {
   password    String?
   owner       String?
   ownerEmail  String?
+  responses   Response[]
 }
 
 model Question {
@@ -52,4 +53,11 @@ model Theme {
   secondary String?
   bgcolor   String?
   text      String?
+}
+
+model Response {
+  id             Int    @id @default(autoincrement())
+  form           Form   @relation(fields: [formId], references: [id])
+  formId         Int
+  responseObject String
 }

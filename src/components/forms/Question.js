@@ -56,16 +56,9 @@ export default function Form(props) {
   }
 
   const handleNext = () => {
-
     if (validate(value)){
-       if (props.question.id < props.limit) {
-          props.addResponse(resp => ({ ...resp, [props.question.id]: value}))
-          props.updateQuestion(ques => ques + 1);
-        }
-        else {
-          props.addResponse(resp => ({ ...resp, [props.question.id]: value}))
-          props.updateQuestion(ques => ques + 1);
-        }
+      props.addResponse(resp => ({ ...resp, [props.question.id]: value}))
+      props.updateQuestion(ques => ques + 1);
     }
     else {
       alert("This field is required");

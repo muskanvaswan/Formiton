@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const submitResponse = async (data) => {
-  const status = await fetch("https://api.csi-bu.tech/forms/apply/", {
+const submitResponse = async (data, formId) => {
+  const status = await fetch(`http://localhost/api/form/respond/${formId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: data,
@@ -65,7 +65,7 @@ export default function ThankYouScreen({ responses, updateQuestion, fields, data
   const handleClick = async () => {
     if (validate(responses)) {
       setLoading(true);
-      const status = await submitResponse(JSON.stringify(responses));
+      const status = await submitResponse(JSON.stringify(responses), formId);
       if (status) {
         setSubmitted(true);
         if (typeof window !== undefined)

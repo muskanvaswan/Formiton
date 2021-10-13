@@ -35,7 +35,7 @@ export const getServerSideProps = async (props) => {
 
   const res = await fetch(`http://localhost:3000/api/form/${id}`);
   const form = await res.json()
-
+  // TODO: Handle bug when form doesnt exist
   if (!form) {
     return {
       notFound: true,

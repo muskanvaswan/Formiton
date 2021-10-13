@@ -42,6 +42,7 @@ export default function FormPage({ form }) {
         questions={form.questions}
         welcome={form.welcome}
         submit={{conclusion: form.conclusion, redirect: form.redirect, published: form.published}}
+        formId={form.id}
       />
     </Box>
   )

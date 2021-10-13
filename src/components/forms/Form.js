@@ -8,10 +8,10 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 
-export default function Form({ questions, theme, welcome, submit }) {
+export default function Form({ questions, theme, welcome, submit, formId }) {
 
   const [ ques, updateQuestion ] = React.useState(0);
-  const [ responses, setResponses ] = React.useState({ 0: true });
+  const [ responses, setResponses ] = React.useState({});
   const limit = questions.length;
 
   return (
@@ -36,6 +36,7 @@ export default function Form({ questions, theme, welcome, submit }) {
               data={submit}
               fields={limit}
               theme={theme}
+              formId={formId}
             />
           ))}
       </Container>
