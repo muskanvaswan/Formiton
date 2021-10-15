@@ -9,6 +9,14 @@ export const getServerSideProps = async (query) => {
 
   const res = await fetch(`http://localhost:3000/api/form/${id}`);
   const data = await res.json()
+  if (data.status !== 200) {
+    return {
+      notFound: true,
+    }
+  }
+
+
+
   const form = {
     id: data.id,
     theme: data.theme,
@@ -26,11 +34,6 @@ export const getServerSideProps = async (query) => {
 
   }
 
-  if (!data) {
-    return {
-      notFound: true,
-    }
-  }
   return {props: {form: form}}
 }
 

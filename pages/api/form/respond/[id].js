@@ -8,17 +8,22 @@ export default async function handle(req, res) {
     const responses = await prisma.response.findMany({
       where: { formId: Number(formId) },
     });
+    
     res.json(responses);
   } else if (req.method === 'POST') {
     const data = req.body;
-    console.log(data)
-    const response = await prisma.response.create({
-      data: {
-        form: {connect: {id: Number(formId)}},
-        responseObject: JSON.stringify(data)
-      }
-    });
-    res.json(response);
+    try {
+      const response = await prisma.response.create({
+        data: {
+          form: {connect: {id: Number(formId)}},
+          responseObject: JSON.stringify(data)
+        }
+      });
+      res.json(response);
+    } catch (e) {
+      res.json({"message": "Could not add response"})
+    }
+
   }
   else {
     throw new Error(

@@ -16,6 +16,9 @@ export default async function handle(req, res) {
         theme: true
       },
     });
+    if (form == null) {
+      res.json({status: 400})
+    }
     res.json(form);
   } else if (req.method === 'DELETE'){
       const { id } = req.params
