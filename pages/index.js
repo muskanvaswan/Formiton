@@ -31,7 +31,14 @@ export default function Index() {
   const [ forms, setForms ] = React.useState([])
 
   const search = async () => {
-    const res = await fetch(`http://localhost:3000/api/form/search/${emailSearch}`);
+    let hostname;
+    if (window)
+      hostname = window.location.hostname
+    if (hostname == 'localhost')
+      hostname = 'http://' + hostname + ':3000'
+    else
+      hostname = 'https://' + hostname
+    const res = await fetch(`${hostname}/api/form/search/${emailSearch}`);
     const data = await res.json()
     setForms(data)
     setCreateOpen(false)

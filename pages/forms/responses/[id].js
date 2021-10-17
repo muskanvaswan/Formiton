@@ -4,11 +4,15 @@ import Box from '@mui/material/Box'
 
 export const getServerSideProps = async (query) => {
   const { id } = query.query;
-
-  const res = await fetch(`http://localhost:3000/api/form/respond/${id}`);
+  let hostname = query.req.headers.host
+  if (hostname == 'localhost:3000')
+    hostname = 'http://' + hostname
+  else
+    hostname = 'https://' + hostname
+  const res = await fetch(`${hostname}/api/form/respond/${id}`);
   const responses = await res.json()
 
-  const qs = await fetch(`http://localhost:3000/api/form/${id}`)
+  const qs = await fetch(`${hostname}/api/form/${id}`)
   const form = await qs.json()
 
   const table = {

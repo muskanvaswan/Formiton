@@ -42,7 +42,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const submitResponse = async (data, formId) => {
-  const status = await fetch(`http://localhost:3000/api/form/respond/${formId}/`, {
+  let hostname;
+  if (window)
+    hostname = window.location.hostname
+  if (hostname == 'localhost')
+    hostname = 'http://' + hostname + ':3000'
+  else
+    hostname = 'https://' + hostname
+  const status = await fetch(`${hostname}/api/form/respond/${formId}/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: data,

@@ -51,7 +51,14 @@ export default function CreateForm(props) {
       }
     }
     try {
-      const rawResponse = await fetch(`http://localhost:3000/api/forms`, {
+      let hostname;
+      if (window)
+        hostname = window.location.hostname
+      if (hostname == 'localhost')
+        hostname = 'http://' + hostname + ':3000'
+      else
+        hostname = 'https://' + hostname
+      const rawResponse = await fetch(`${hostname}/api/forms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

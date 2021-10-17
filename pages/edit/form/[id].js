@@ -32,8 +32,12 @@ export const getServerSideProps = async (props) => {
 
   const validated = parseCookies(props.req)
   console.log(validated)
-
-  const res = await fetch(`http://localhost:3000/api/form/${id}`);
+  let hostname = props.req.headers.host
+  if (hostname == 'localhost:3000')
+    hostname = 'http://' + hostname
+  else
+    hostname = 'https://' + hostname
+  const res = await fetch(`${hostname}/api/form/${id}`);
   const form = await res.json()
   // TODO: Handle bug when form doesnt exist
   if (form.status == 400) {
@@ -272,7 +276,14 @@ export default function Form(props) {
       }
     }
     try {
-      const rawResponse = await fetch(`http://localhost:3000/api/form/${form.id}`, {
+      let hostname;
+      if (window)
+        hostname = window.location.hostname
+      if (hostname == 'localhost')
+        hostname = 'http://' + hostname + ':3000'
+      else
+        hostname = 'https://' + hostname
+      const rawResponse = await fetch(`${hostname}/api/form/${form.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -286,7 +297,14 @@ export default function Form(props) {
   }
   const publish = async () => {
     try {
-      const rawResponse = await fetch(`http://localhost:3000/api/form/publish/${form.id}`, {
+      let hostname;
+      if (window)
+        hostname = window.location.hostname
+      if (hostname == 'localhost')
+        hostname = 'http://' + hostname + ':3000'
+      else
+        hostname = 'https://' + hostname
+      const rawResponse = await fetch(`${hostname}/api/form/publish/${form.id}`, {
         method: 'UPDATE',
         headers: {
           'Content-Type': 'application/json'

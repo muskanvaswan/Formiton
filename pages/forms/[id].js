@@ -6,8 +6,12 @@ import getQuestions from '../../sample-questions'
 
 export const getServerSideProps = async (query) => {
   const { id } = query.query;
-
-  const res = await fetch(`http://localhost:3000/api/form/${id}`);
+  let hostname = query.req.headers.host
+  if (hostname == 'localhost:3000')
+    hostname = 'http://' + hostname
+  else
+    hostname = 'https://' + hostname
+  const res = await fetch(`${hostname}/api/form/${id}`);
   const data = await res.json()
   if (data.status !== 200) {
     return {
