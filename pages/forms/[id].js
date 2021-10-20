@@ -13,7 +13,7 @@ export const getServerSideProps = async (query) => {
     hostname = 'https://' + hostname
   const res = await fetch(`${hostname}/api/form/${id}`);
   const data = await res.json()
-  if (data.status !== 200) {
+  if (data.status == 400) {
     return {
       notFound: true,
     }
