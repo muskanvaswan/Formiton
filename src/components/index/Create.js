@@ -66,7 +66,7 @@ export default function CreateForm(props) {
         body: JSON.stringify(data)
       });
       const form = await rawResponse.json()
-      router.push(`http://localhost:3000/edit/form/${form.id}`)
+      router.push(`${hostname}/edit/form/${form.id}`)
     } catch (error) {
       console.log(error)
     }
