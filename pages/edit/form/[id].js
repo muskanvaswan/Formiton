@@ -361,14 +361,17 @@ export default function Form(props) {
               </Box>
               <Box sx={classes.questions}>
                 {questions.map((question, idx) => (
-                  <Box
-                    key={idx}
-                    onClick={() => setActiveQuestion(idx)}
-                    sx={idx == activeQuestion? classes.activeQuestionPreview: classes.questionPreview}>
-                    {idx === activeQuestion && <IconButton sx={{position: 'absolute', p: '2.5px', right: 10, top: 10, bgcolor: 'rgba(145, 145, 145, 0.34)'}} onClick={deleteQuestion}><CloseIcon sx={{color: 'white', fontSize: 15}}/></IconButton>}
-                    <Typography
-                      sx={idx == activeQuestion? {color: primary || 'primary.main', width: '75%', textAlign:'center'}: {color: 'white',  width: '75%', textAlign:'center'}}
-                      variant="body1">{idx + 1} - {questions[idx].question}</Typography>
+                  <Box sx={{position: 'relative'}}key={idx}>
+                    {idx === activeQuestion && <IconButton sx={{position: 'absolute', right: 12, p: '2.5px', top: 10, bgcolor: 'rgba(145, 145, 145, 1)', zIndex: 1}} onClick={deleteQuestion}><CloseIcon sx={{color: 'white', fontSize: 15}}/></IconButton>}
+                    <Box
+                      key={idx}
+                      onClick={() => setActiveQuestion(idx)}
+                      sx={idx == activeQuestion? classes.activeQuestionPreview: classes.questionPreview}>
+
+                      <Typography
+                        sx={idx == activeQuestion? {color: primary || 'primary.main', width: '75%', textAlign:'center'}: {color: 'white',  width: '75%', textAlign:'center'}}
+                        variant="body1">{idx + 1} - {questions[idx].question}</Typography>
+                    </Box>
                   </Box>
                 ))}
                 <Box
