@@ -5,7 +5,8 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useRouter } from "next/router";
 import bcrypt from 'bcryptjs';
-
+import CircularProgress from '@mui/material/CircularProgress';
+import { green } from '@mui/material/colors';
 
 function hashIt(password){
   const salt = bcrypt.genSaltSync(6);
@@ -15,6 +16,7 @@ function hashIt(password){
 
 
 export default function CreateForm(props) {
+  const [ loading, setLoading ] = React.useState(false)
   const [ title, setTitle ] = React.useState('')
   const [ owner, setOwner ] = React.useState('')
   const [ password, setPassword ] = React.useState('')
@@ -28,7 +30,7 @@ export default function CreateForm(props) {
   }, [])
 
   const create = async () => {
-
+    setLoading(true)
     const data = {
       form: {
         title: title,
@@ -118,7 +120,9 @@ export default function CreateForm(props) {
   }
 
   return (
-    <Box sx={{height: '40vh', width: '100%', mt:5, py:2, px: 12,mb: 0, display: 'flex', flexWrap: 'wrap'}}>
+    <Box sx={{height: '40vh', width: '100%', mt:5, py:2, px: 12,mb: 0, display: 'flex', flexWrap: 'wrap', position:'relative'}}>
+
+
       <TextField
         value={title}
         onChange={(e) => setTitle(e.target.value)}
@@ -159,7 +163,26 @@ export default function CreateForm(props) {
           label="Create Form Admin Password"
           sx={classes.createInputFlex}
         ></TextField>
-        <Button variant="contained" onClick={create} sx={{mx: 1, mt: 5, width: '100%'}}>Make form</Button>
+
+        <Button variant="contained"
+        onClick={create}
+        disabled={loading}
+        sx={{mx: 1, mt: 5, width: '100%', position: 'relative'}}>Make form
+        {loading && (
+          <CircularProgress
+            size={24}
+            thickness={6}
+            sx={{
+              position: 'absolute',
+              top: '20%',
+              left: '50%',
+              //marginTop: '-12px',
+              //marginLeft: '-12px',
+            }}
+          />
+        )}
+        </Button>
+
       </Box>
     </Box>
   )

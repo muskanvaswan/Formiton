@@ -9,6 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Collapse from '@mui/material/Collapse';
 import Create from '../src/components/index/Create'
 import FormsList from '../src/components/index/FormsList'
+import LinearProgress from '@mui/material/LinearProgress';
 
 const classes = {
   superRoot: {
@@ -34,10 +35,12 @@ export default function Index() {
   const [ creatOpen, setCreateOpen ] = React.useState(false)
   const [ findForms, setFindForms  ] = React.useState(false)
   const [ emailSearch, setEmailSearch  ] = React.useState('')
+  const [ loading, setLoading ] = React.useState(false)
   const [ found, setFound ] = React.useState(false)
   const [ forms, setForms ] = React.useState([])
 
   const search = async () => {
+    setLoading(true)
     let hostname;
     if (window)
       hostname = window.location.hostname
@@ -50,6 +53,7 @@ export default function Index() {
     setForms(data)
     setCreateOpen(false)
     setFound(true)
+    setLoading(false)
   }
 
   const redirect = (url) => {
@@ -66,14 +70,17 @@ export default function Index() {
         <Container sx={{display: 'flex', justifyContent: "center", mt: 2, mb: 15}} >
           <Button variant="contained" color="inherit" onClick={() => {setFound(false); setCreateOpen(open => !open)}}sx={{mx: 1, width: '30%'}} > Create A Form </Button>
           { !findForms? <Button variant="contained" color="inherit" sx={{mx: 1, width: '30%'}} onClick={() => setFindForms(open => !open)}> Edit an Existing form </Button>:
-            <Box sx={{mx: 1, width: '30%', display: 'flex', p: 1, borderRadius: '10px', bgcolor: 'rgba(198, 198, 198, 0.22)', justifyContent: 'space-between'}}>
-              <TextField
-                variant="standard"
-                sx={{width: '80%', p:1, bgcolor: 'white', borderRadius: '10px', '& input': {fontSize: 12}}}
-                value={emailSearch}
-                onChange={(e) => setEmailSearch(e.target.value)}
-              />
-              <IconButton onClick={search}><SearchIcon /></IconButton>
+            <Box sx={{mx: 1, width: '30%', px: 1, pt: 1, borderRadius: '10px', bgcolor: 'rgba(198, 198, 198, 0.22)', position: 'relative'}}>
+              <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between', mb: 1}}>
+                <TextField
+                  variant="standard"
+                  sx={{width: '80%', p:1, bgcolor: 'white', borderRadius: '10px', '& input': {fontSize: 12}}}
+                  value={emailSearch}
+                  onChange={(e) => setEmailSearch(e.target.value)}
+                />
+                <IconButton onClick={search}><SearchIcon /></IconButton>
+              </Box>
+              {loading && <LinearProgress/>}
             </Box>
           }
         </Container>
