@@ -8,6 +8,15 @@ import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
 import { CookiesProvider } from "react-cookie"
 
+import Router from 'next/router'
+import NProgress from 'nprogress';
+
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
+
+
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 

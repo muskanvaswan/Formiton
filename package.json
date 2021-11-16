@@ -17,6 +17,7 @@
     "cookie": "^0.4.1",
     "fs": "^0.0.1-security",
     "next": "latest",
+    "nprogress": "^0.2.0",
     "prop-types": "latest",
     "react": "latest",
     "react-color": "^2.19.3",
