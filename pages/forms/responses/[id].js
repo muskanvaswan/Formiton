@@ -1,10 +1,14 @@
-import { useRouter } from 'next/router';
+import { useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box'
+import parseCookies from "../../../src/helpers/cookies"
+import Verify from '../../../src/components/edit/Verify'
 
 export const getServerSideProps = async (query) => {
   const { id } = query.query;
   let hostname = query.req.headers.host
+  const validated = parseCookies(query.req)
+
   if (hostname == 'localhost:3000')
     hostname = 'http://' + hostname
   else
@@ -20,17 +24,18 @@ export const getServerSideProps = async (query) => {
     rows: responses.map((response, idx) => (Object.assign(JSON.parse(response.responseObject), {id: response.id})))
   }
 
-  return {props: {table: table}}
+  return {props: {table: table, password: form.password, validated: validated}}
 }
 
-export default function Responses({ table }) {
+export default function Responses({ table, password, validated}) {
+  const [ verify, setVerify ] = useState(validated);
+
   return (
-    <div style={{ height: 400, width: '100%' }}>
-      <div style={{ display: 'flex', height: '100%' }}>
-        <div style={{ flexGrow: 1 }}>
+    <Box sx={{ height: '100vh', width: '100%' }}>
+      {verify? <Box sx={{ display: 'flex', height: '100%', flexGrow: 1}}>
           <DataGrid autoHeight rows={table.rows} columns={table.columns} />
-        </div>
-      </div>
-    </div>
+      </Box>
+    : <Verify setVerify={setVerify} correct={password} />}
+    </Box>
   )
 }
