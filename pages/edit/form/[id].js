@@ -1,25 +1,11 @@
 import React from 'react'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
-
-import IconButton from '@mui/material/IconButton'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import AddIcon from '@mui/icons-material/Add'
-import CloseIcon from '@mui/icons-material/Close'
-import SettingsIcon from '@mui/icons-material/Settings';
 import Input from '../../../src/components/forms/Input'
 import Navigators from '../../../src/components/forms/Navigators'
 
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField'
-import Select from '@mui/material/Select'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
-import Switch from '@mui/material/Switch'
-import ColorPicker from '../../../src/components/edit/ColorPicker'
-import OptionsEdit from '../../../src/components/edit/Options'
-import Settings from '../../../src/components/edit/Settings'
-import Verify from '../../../src/components/edit/Verify'
+import { Typography, Button, Select, MenuItem, Switch, TextField, IconButton, Box, Grid } from '@mui/material'
+import { ArrowForwardIcon, AddIcon, CloseIcon, SettingsIcon } from '@mui/icons-material'
+import { ColorPicker, OptionsEdit, Settings, Verify} from '../../../src/components/edit/'
+
 
 import parseCookies from "../../../src/helpers/cookies"
 
@@ -31,7 +17,7 @@ export const getServerSideProps = async (props) => {
   const { id } = props.query;
 
   const validated = parseCookies(props.req)
-  console.log(validated)
+
   let hostname = props.req.headers.host
   if (hostname == 'localhost:3000')
     hostname = 'http://' + hostname
