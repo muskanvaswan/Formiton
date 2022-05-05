@@ -1,12 +1,17 @@
-import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Box from '@mui/material/Box'
 
 import Form from '../../../src/components/forms/Form'
 import getQuestions from '../../../sample-questions'
+import parseCookies from "../../../src/helpers/cookies"
+import Verify from '../../../src/components/edit/Verify'
+
+
 
 export const getServerSideProps = async (query) => {
   const { id } = query.query;
   let hostname = query.req.headers.host
+  const validated = parseCookies(query.req)
   if (hostname == 'localhost:3000')
     hostname = 'http://' + hostname
   else
@@ -35,18 +40,20 @@ export const getServerSideProps = async (query) => {
       notFound: true,
     }
   }
-  return {props: {form: form}}
+  return {props: {form: form, validated: validated.validated == 'true', password: data.password}}
 }
 
-export default function FormPage({ form }) {
+export default function FormPage({ form, validated, password }) {
+  const [ verify, setVerify ] = useState(validated);
+
   return (
-    <Box sx={{ minHeight: '100vh', width: '100%', pb: 0, bgcolor: form.theme.bgcolor }}>
+    verify? <Box sx={{ minHeight: '100vh', width: '100%', pb: 0, bgcolor: form.theme.bgcolor }}>
       <Form
         theme={form.theme}
         questions={form.questions}
         welcome={form.welcome}
         submit={{conclusion: form.conclusion, redirect: form.redirect, published: form.published}}
       />
-    </Box>
-  )
+    </Box> : <Verify correct={password} setVerify={setVerify} />
+   )
 }
