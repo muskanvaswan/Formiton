@@ -24,7 +24,7 @@ export const getServerSideProps = async (query) => {
     rows: responses.map((response, idx) => (Object.assign(JSON.parse(response.responseObject), {id: response.id})))
   }
 
-  return {props: {table: table, password: form.password, validated: validated}}
+  return {props: {table: table, password: form.password, validated: validated.validated == 'true'}}
 }
 
 export default function Responses({ table, password, validated}) {
