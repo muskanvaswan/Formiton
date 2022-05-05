@@ -106,6 +106,13 @@ export default function ThankYouScreen({ responses, updateQuestion, fields, data
   const previous = () => {
     updateQuestion((ques) => ques - 1);
   };
+
+  const redirect = () => {
+    if (window.location !== window.parent.location)
+      window.parent.location.href = data.redirect;
+    else
+      router.push(data.redirect || '/');
+  }
   return (
     <div className={classes.root}>
       <Typography variant="h4" sx={{ color: theme.primary || "primary.main" }}>
@@ -136,10 +143,10 @@ export default function ThankYouScreen({ responses, updateQuestion, fields, data
       <Snackbar
         open={submitted}
         autoHideDuration={3000}
-        onClose={() => router.push(data.redirect || '/')}
+        onClose={redirect}
       >
         <Alert
-          onClose={() => router.push(data.redirect || '/')}
+          onClose={redirect}
           severity="success"
           sx={{ width: "100%", bgcolor: "rgb(76, 226, 149)", color: theme.text || 'black'}}
         >
