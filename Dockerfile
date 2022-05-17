@@ -25,7 +25,7 @@ WORKDIR /app
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1
 
-COPY --from=builder /app/.env /app/next.config.js /app/deployment/start.sh /app/package.json ./
+COPY --from=builder /app/.env /app/next.config.js /app/deployment/start.sh /app/deployment/CHECKS /app/package.json ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
