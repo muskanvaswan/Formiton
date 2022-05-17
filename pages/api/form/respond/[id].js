@@ -1,6 +1,6 @@
-//import prisma from '../../lib/prisma'
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import prisma from '../../lib/prisma'
+// import { PrismaClient } from '@prisma/client'
+// const prisma = new PrismaClient()
 
 export default async function handle(req, res) {
   const formId = req.query.id;
@@ -8,7 +8,7 @@ export default async function handle(req, res) {
     const responses = await prisma.response.findMany({
       where: { formId: Number(formId) },
     });
-    
+
     res.json(responses);
   } else if (req.method === 'POST') {
     const data = req.body;
