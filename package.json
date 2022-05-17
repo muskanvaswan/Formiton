@@ -26,9 +26,8 @@
   },
   "scripts": {
     "dev": "next",
-    "build": "next build",
-    "start": "next start",
-    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+    "build": "npx prisma generate && next build",
+    "start": "next start"
   },
   "devDependencies": {
     "prisma": "^3.2.1"
