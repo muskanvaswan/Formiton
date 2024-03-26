@@ -1,36 +1,35 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 import { useRouter } from "next/router";
-import bcrypt from 'bcryptjs';
-import CircularProgress from '@mui/material/CircularProgress';
-import { green } from '@mui/material/colors';
+import bcrypt from "bcryptjs";
+import CircularProgress from "@mui/material/CircularProgress";
+import { green } from "@mui/material/colors";
 
-function hashIt(password){
+function hashIt(password) {
   const salt = bcrypt.genSaltSync(6);
   const hashed = bcrypt.hashSync(password, salt);
-  return hashed
+  return hashed;
 }
 
-
 export default function CreateForm(props) {
-  const [ loading, setLoading ] = React.useState(false)
-  const [ title, setTitle ] = React.useState('')
-  const [ owner, setOwner ] = React.useState('')
-  const [ password, setPassword ] = React.useState('')
-  const [ description, setDescription ] = React.useState('')
-  const [ ownerEmail, setOwnerEmail ] = React.useState('')
+  const [loading, setLoading] = React.useState(false);
+  const [title, setTitle] = React.useState("");
+  const [owner, setOwner] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [ownerEmail, setOwnerEmail] = React.useState("");
 
   const router = useRouter();
 
-  React.useEffect(()=> {
-    console.log(hashIt('hello'))
-  }, [])
+  React.useEffect(() => {
+    console.log(hashIt("hello"));
+  }, []);
 
   const create = async () => {
-    setLoading(true)
+    setLoading(true);
     const data = {
       form: {
         title: title,
@@ -38,91 +37,67 @@ export default function CreateForm(props) {
         owner: owner,
         ownerEmail: ownerEmail,
         password: hashIt(password),
-        questions: [{
-          type: "text",
-          question: "Put your main question here",
-          subText: "Add some sub text",
-          description: "Give some background",
-          required: true,
-        }],
+        questions: [
+          {
+            type: "text",
+            question: "Put your main question here",
+            subText: "Add some sub text",
+            description: "Give some background",
+            required: true,
+          },
+        ],
         theme: {
-          primary: '#556cd6',
-          secondary: '#19857b',
-          bgcolor: 'rgba(240, 240, 240, 0.85)'
-        }
-      }
-    }
+          primary: "#556cd6",
+          secondary: "#19857b",
+          bgcolor: "rgba(240, 240, 240, 0.85)",
+        },
+      },
+    };
     try {
       let hostname;
-      if (window)
-        hostname = window.location.hostname
-      if (hostname == 'localhost')
-        hostname = 'http://' + hostname + ':3000'
-      else
-        hostname = 'https://' + hostname
+      if (window) hostname = window.location.hostname;
+      if (hostname == "localhost") hostname = "http://" + hostname + ":3000";
+      else hostname = "https://" + hostname;
       const rawResponse = await fetch(`${hostname}/api/forms`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
-      const form = await rawResponse.json()
-      router.push(`${hostname}/edit/form/${form.id}`)
+      const form = await rawResponse.json();
+      router.push(`${hostname}/edit/form/${form.id}`);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   const classes = {
-
+    root: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh",
+      width: "100%",
+      gap: 2,
+      p: 4
+    },
     createInput: {
-      minWidth: '30%',
-      borderRadius: '10px',
-
+      minWidth: "100%",
+      borderRadius: "10px",
       mx: 1,
-
-      '& input': {
+      "& input": {
         fontSize: 25,
-        borderColor: 'rgba(247, 249, 246, 0)'
+        borderColor: "rgba(247, 249, 246, 0)",
       },
-      '& div': {
-        borderColor: 'rgba(247, 249, 246, 0)'
-      }
+      "& div": {
+        borderColor: "rgba(247, 249, 246, 0)",
+      },
     },
-    createInputFlex: {
-      borderRadius: '10px',
-
-      mx: 1,
-
-      '& input': {
-        fontSize: 25,
-        borderColor: 'rgba(247, 249, 246, 0)'
-      },
-      '& div': {
-        borderColor: 'rgba(247, 249, 246, 0)'
-      }
-    },
-    createInputDescription: {
-      minWidth: '61%',
-      borderRadius: '10px',
-
-      mx: 1,
-
-      '& input': {
-        fontSize: 25,
-        borderColor: 'rgba(247, 249, 246, 0)'
-      },
-      '& div': {
-        borderColor: 'rgba(247, 249, 246, 0)'
-      }
-    }
-
-  }
+  };
 
   return (
-    <Box sx={{height: '40vh', width: '100%', mt:5, py:2, px: 12,mb: 0, display: 'flex', flexWrap: 'wrap', position:'relative'}}>
-
-
+    <Box sx={classes.root}>
       <TextField
         value={title}
         onChange={(e) => setTitle(e.target.value)}
@@ -149,41 +124,39 @@ export default function CreateForm(props) {
         onChange={(e) => setDescription(e.target.value)}
         variant="outlined"
         label="Form Description"
-        sx={classes.createInputDescription}
+        sx={classes.createInput}
         multiline
         rows={5}
       ></TextField>
-      <Box sx={{width: '30%'}}>
-        <TextField
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          variant="outlined"
-          fullWidth
-          label="Create Form Admin Password"
-          sx={classes.createInputFlex}
-        ></TextField>
+      <TextField
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+        variant="outlined"
+        fullWidth
+        label="Create Form Admin Password"
+        sx={classes.createInput}
+      ></TextField>
 
-        <Button variant="contained"
+      <Button
+        variant="contained"
         onClick={create}
         disabled={loading}
-        sx={{mx: 1, mt: 5, width: '100%', position: 'relative'}}>Make form
+        sx={{ mx: 1, mt: 5, width: "100%", position: "relative" }}
+      >
+        Make form
         {loading && (
           <CircularProgress
             size={24}
             thickness={6}
             sx={{
-              position: 'absolute',
-              top: '20%',
-              left: '50%',
-              //marginTop: '-12px',
-              //marginLeft: '-12px',
+              position: "absolute",
+              top: "20%",
+              left: "50%",
             }}
           />
         )}
-        </Button>
-
-      </Box>
+      </Button>
     </Box>
-  )
+  );
 }

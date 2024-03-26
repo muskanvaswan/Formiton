@@ -20,9 +20,9 @@ export default function FormList({ forms }) {
   }
 
   return (
-    <Box sx={{height: '40vh', width: '100%', mt:5, py:2, px: 12,mb: 0, display: 'flex', overflowX: 'scroll'}}>
+    <Box>
       {forms.map((form, idx) => (
-        <Card sx={{ minWidth: 200, m: 2, height: '80%', borderRadius: '10px', position: 'relative'}} key={idx}>
+        <Card sx={{ minWidth: 200, m: 2, height: '100%', borderRadius: '10px', position: 'relative'}} key={idx}>
           <Box sx={{bgcolor: form.theme.bgcolor, height: 100, width: '100%', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
             <Box sx={{ bgcolor: form.theme.primary, height: '100%', width: 30, borderRadius: '2px', m: 1}} />
             <Box sx={{ bgcolor: form.theme.secondary, height: '100%', width: 30, borderRadius: '2px', m: 1}} />
