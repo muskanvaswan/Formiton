@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import bcrypt from "bcryptjs";
 import CircularProgress from "@mui/material/CircularProgress";
 import { green } from "@mui/material/colors";
+import { Divider } from "@mui/material";
 
 function hashIt(password) {
   const salt = bcrypt.genSaltSync(6);
@@ -75,19 +76,19 @@ export default function CreateForm(props) {
     root: {
       display: "flex",
       flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
+      justifyContent: "space-between",
       height: "100vh",
-      width: "100%",
+      width: 500,
       gap: 2,
-      p: 4
+      p: 4,
+      backgroundColor: "background.paper",
     },
     createInput: {
       minWidth: "100%",
-      borderRadius: "10px",
-      mx: 1,
+      borderRadius: "17px",
+      my: 1,
       "& input": {
-        fontSize: 25,
+        fontSize: 12,
         borderColor: "rgba(247, 249, 246, 0)",
       },
       "& div": {
@@ -98,53 +99,81 @@ export default function CreateForm(props) {
 
   return (
     <Box sx={classes.root}>
-      <TextField
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        variant="outlined"
-        label="Title"
-        sx={classes.createInput}
-      ></TextField>
-      <TextField
-        value={owner}
-        onChange={(e) => setOwner(e.target.value)}
-        variant="outlined"
-        label="Owner Name"
-        sx={classes.createInput}
-      ></TextField>
-      <TextField
-        value={ownerEmail}
-        onChange={(e) => setOwnerEmail(e.target.value)}
-        variant="outlined"
-        label="Owner Email"
-        sx={classes.createInput}
-      ></TextField>
-      <TextField
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        variant="outlined"
-        label="Form Description"
-        sx={classes.createInput}
-        multiline
-        rows={5}
-      ></TextField>
-      <TextField
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        type="password"
-        variant="outlined"
-        fullWidth
-        label="Create Form Admin Password"
-        sx={classes.createInput}
-      ></TextField>
+      <Box>
+        <Typography variant="h4">Create a New Form</Typography>
+        <Divider sx={{ width: "100%", my: 2 }} />
+      </Box>
+
+      <Box>
+        <Typography variant="h6">Form Details</Typography>
+        <Typography variant="body2" color="GrayText">
+          Details related to the form you want to create. These details can also
+          be edited later and will be visible to the user.
+        </Typography>
+        <TextField
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          variant="outlined"
+          label="Title"
+          sx={classes.createInput}
+        ></TextField>
+        <TextField
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          variant="outlined"
+          label="Form Description"
+          sx={classes.createInput}
+          multiline
+          rows={5}
+        ></TextField>
+      </Box>
+      <Box>
+        <Typography variant="h6">Owner Details</Typography>
+        <Typography variant="body2" color="GrayText">
+          Details related to the owner of the form. The email address can be
+          used to search and edit the form later. This information can also be
+          that of an organisation.
+        </Typography>
+        <TextField
+          value={owner}
+          onChange={(e) => setOwner(e.target.value)}
+          variant="outlined"
+          label="Name"
+          sx={classes.createInput}
+        ></TextField>
+        <TextField
+          value={ownerEmail}
+          onChange={(e) => setOwnerEmail(e.target.value)}
+          variant="outlined"
+          label="Email"
+          sx={classes.createInput}
+        ></TextField>
+      </Box>
+
+      <Box>
+        <Typography variant="h6">Password</Typography>
+        <Typography variant="body2" color="GrayText">
+          Anyone with this password can edit the form, preview the form before
+          its published and access its responses. Make sure to keep it safe.
+        </Typography>
+        <TextField
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          variant="outlined"
+          fullWidth
+          label="Form Password"
+          sx={classes.createInput}
+        ></TextField>
+      </Box>
 
       <Button
         variant="contained"
         onClick={create}
         disabled={loading}
-        sx={{ mx: 1, mt: 5, width: "100%", position: "relative" }}
+        sx={{ mx: 1, mt: 5, width: 200, position: "relative" }}
       >
-        Make form
+        Create
         {loading && (
           <CircularProgress
             size={24}

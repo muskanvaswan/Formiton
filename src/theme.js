@@ -5,6 +5,9 @@ import { red } from '@mui/material/colors';
 const theme = createTheme({
   palette: {
     mode: 'dark',
+    background: {
+      paper: "rgba(0, 0, 0, 0.5)",
+    },
     primary: {
       main: '#0466c8',
     },
@@ -18,6 +21,12 @@ const theme = createTheme({
       main: red.A400,
     },
   },
+  typography: {
+    fontFamily: [
+      'Nunito',
+      'sans-serif',
+    ].join(','),
+  }
 });
 
 export default theme;
