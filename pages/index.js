@@ -9,7 +9,6 @@ import Create from "../src/components/index/Create";
 import FormsList from "../src/components/index/FormsList";
 import { CircularProgress, Drawer } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import Image from "next/image";
 
 const classes = {
   root: {
@@ -56,10 +55,10 @@ export default function Index() {
     <Box sx={classes.root}>
       <Box sx={{ width: "100%", pl: 20 }}>
         <Box>
-          <Image src="/full-logo.svg" width={900} height={200} />
+          <img src="/full-logo.svg" width="50%" height="auto" />
           <Typography
             variant="body1"
-            sx={{ mt: 2, width: { lg: "40%", sm: "100%" } }}
+            sx={{ mt: 2, width: { lg: "60%", md: "55%", sm: "100%" } }}
           >
             Forget clunky builders! Build stunning, user-friendly forms in
             minutes. Customize colors, text, and structure with a
